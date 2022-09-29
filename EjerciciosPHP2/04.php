@@ -25,8 +25,9 @@ $media=$media/cincuenta;
 
 echo "<table style=\"border:1px solid black\",\"cellspacing:0\"
 <tr border=1px solid black><th colspan=2>Generación de 50 valores aleatorios</th></tr>
-<tr><th>Maximo</th><th>".$max."</th></tr></table>";
-echo "Maximo: ".$max."<br>";
-echo "Minimo: ".$min."<br>";
-echo "Media: ".$media;
+<tr><th>Maximo</th><th>".$max."</th></tr>
+<tr><th>Minimo</th><th>".$min."</th></tr>
+<tr><th>Media</th><th>".$media."</th></tr>
+</table>";
+
 ?>
