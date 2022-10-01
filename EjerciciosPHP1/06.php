@@ -2,7 +2,6 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <link href="default.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
       <h1>TABLA DE MULTIPLICAR</h1>
