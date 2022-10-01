@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <link href="default.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
       <h1>TABLA DE MULTIPLICAR</h1>
@@ -15,8 +16,7 @@
         <?php   
         
         for ($i=1; $i <= 10; $i++){
-          echo "<tr><td> $num x $i =  </td><td style=\"text-align:right\">". ($i*$num). "</td>";
-            
+          echo "<tr><td> $num x $i =  </td><td style=\"text-align:right\">". ($i*$num). "</td>";         
         }
         ?>
         </table>        

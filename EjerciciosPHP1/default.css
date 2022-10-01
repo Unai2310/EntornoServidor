@@ -1,0 +1,26 @@
+body {
+  background: silver;
+  text-align: justify;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 14px;
+  color: #757E82;
+}
+
+#container {
+  margin: 0 auto;
+  width: 300px;
+  background:#fff;
+  border: solid 1px;
+}
+
+#content {
+  background: white;
+  clear: left;
+  padding: 20px;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse:collapse;
+  padding: 4px;
+}
