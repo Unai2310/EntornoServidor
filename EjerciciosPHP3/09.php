@@ -29,7 +29,7 @@
 		echo "<td>".$mes."</td>";
 		echo "<td>";
 		for ($i=0;$i<$temp;$i++) {
-			echo "<img src=\"pixel.png\">";
+			echo "<img src=\"img/pixel.png\">";
 		}
 		echo " ".$temp." ºC</td>";
 		echo "</tr>";
