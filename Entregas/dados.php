@@ -46,7 +46,7 @@
 
 	function obtenerResultado($jugada, &$puntos) {
 		sort($jugada);
-		$puntos= $jugada[1] + $jugada[2] + $jugada[3] + $jugada[4];
+		$puntos= $jugada[1] + $jugada[2] + $jugada[3];
 		return $puntos." puntos";
 	}
 
