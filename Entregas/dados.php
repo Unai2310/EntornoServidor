@@ -38,7 +38,7 @@
 	echo "<p>".obtenerGanador($puntos1, $puntos2)."</p>";
 
 	function tirarDados(&$jugada) {
-		for ($i=0;$i<6;$i++) {
+		for ($i=0;$i<5;$i++) {
 			$jugada[]=random_int(1,6);
 		}
 	}
