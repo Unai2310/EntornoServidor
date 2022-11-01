@@ -15,22 +15,22 @@
   <?php
     session_start(); 
     if (!isset($_GET['cliente'])) {
-      include 'registro.html';
+      include 'inicio.html';
     }
     if (isset($_GET['cliente'])) {
       $_SESSION['cliente'] = $_GET['cliente'];
       include 'formulario.php';
     }
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-      if ($_POST['boton'] == 'Anotar') {
-        if (empty($_SESSION['pedido'][$_POST['fruta']])) {
-          $_SESSION['pedido'][$_POST['fruta']] = $_POST['cantidad'];
+      if ($_POST['anotar']) {
+        if (empty($_SESSION['lista'][$_POST['frutas']])) {
+          $_SESSION['lista'][$_POST['frutas']] = $_POST['cantidad'];
         } else {
-          $_SESSION['pedido'][$_POST['fruta']] += $_POST['cantidad'];
+          $_SESSION['lista'][$_POST['frutas']] += $_POST['cantidad'];
         }
       include 'lista.php';
       include 'formulario.php';
-    } else {
+    } else if ($_POST['terminar']){
       include 'lista.php';
       include 'terminado.php';
     }

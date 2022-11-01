@@ -11,7 +11,7 @@
     $cliente = $_SESSION['cliente'];
     ?>
     <h1>La Futería del siglo XXI</h1><br>
-    <h3>REALICE SU COMPRA <?php echo $nombre ?></h3>
+    <h3>REALICE SU COMPRA <?php echo $cliente ?></h3>
     <form action="fruteria.php" method="POST">
         <label>Seleciona la fruta: </label>
         <select name="frutas">
