@@ -2,7 +2,7 @@
 include_once 'app/config.php';
 
 // Cargo los datos segun el formato de configuración
-function cargarDatos(){
+function  cargarDatos(){
     $funcion =__FUNCTION__.TIPO; // cargarDatostxt
     return $funcion();
 }
@@ -28,7 +28,7 @@ function cargarDatostxt(){
     while ($linea = fgets($fich)) {
         $partes = explode('|', trim($linea));
         // Escribimos la correspondiente fila en tabla
-        $tabla[]= [ $partes[0],$partes[1],$partes[2],$partes[3]];
+        $tabla[]= [$partes[0],$partes[1],$partes[2],$partes[3]];
         }
     fclose($fich);
     return $tabla;
@@ -104,7 +104,9 @@ function mostrarDatos (){
 
 // Función para limpiar todos elementos de un array
 function limpiarArrayEntrada(array &$entrada){
-  // Sin implementar
-    
+  foreach ($entrada as $clave => $valor) {
+    $cadena = htmlspecialchars($valor);
+    $entrada[$clave] = $cadena;
+  } 
 }
 
