@@ -29,7 +29,7 @@ else {
          switch($_POST['orden']) {
              case "Nuevo"    : accionPostAlta(); break;
              case "Modificar": accionPostModificar(); break;
-             case "Detalles":; // No hago nada
+             case "Detalles" :; // No hago nada
          }
     }
 }
