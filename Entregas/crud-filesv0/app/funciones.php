@@ -105,8 +105,6 @@ function mostrarDatos (){
 // Función para limpiar todos elementos de un array
 function limpiarArrayEntrada(array &$entrada){
   foreach ($entrada as $clave => $valor) {
-    $cadena = htmlspecialchars($valor);
-    $entrada[$clave] = $cadena;
+    $entrada[$clave] = htmlspecialchars($valor);
   } 
 }
-

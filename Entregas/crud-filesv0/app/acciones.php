@@ -1,6 +1,6 @@
 <?php
 
-
+include_once 'app/funciones.php';
 
 function accionDetalles($id){
     $usuario = $_SESSION['tuser'][$id];
@@ -23,6 +23,10 @@ function accionAlta(){
     exit();
 }
 
+function accionBorrar($id) {
+    unset($_SESSION['tuser'][$id]);
+    sort($_SESSION['tuser']);
+}
 
 function accionModificar($columna) {
     $usuario = $_SESSION['tuser'][$columna];
@@ -38,7 +42,17 @@ function accionModificar($columna) {
 function accionPostAlta(){
     limpiarArrayEntrada($_POST); //Evito la posible inyección de código
     $nuevo = [ $_POST['nombre'],$_POST['login'],$_POST['clave'],$_POST['comentario']];
-    $_SESSION['tuser'][]= $nuevo;
+    $esta = false;
+    foreach ($_SESSION['tuser'] as $clave => $valor) {
+        if ($valor[1] == $nuevo[1]) {
+            $esta = true;
+            break;
+        }
+    }
+    if (!$esta) {
+        $_SESSION['tuser'][]= $nuevo;
+    } 
+    
 }
 
 function accionPostModificar() {

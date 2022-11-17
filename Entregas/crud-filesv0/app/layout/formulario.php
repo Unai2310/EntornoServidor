@@ -16,7 +16,7 @@
 <table>
  <tr><td>Nombre </td> 
  <td>
- <input type="text" 	name="nombre" 	value="<?=$nombre ?>"       <?= ($orden == "Detalles")?"readonly":"" ?> size="20" autofocus></td></tr>
+ <input type="text" 	name="nombre"   value="<?=$nombre ?>"       <?= ($orden == "Detalles")?"readonly":"" ?> size="20" autofocus></td></tr>
  <tr><td>Login   </td> <td>
  <input type="text" 	name="login" 	value="<?=$login ?>"        <?= ($orden == "Detalles" || $orden == "Modificar")?"readonly":"" ?> size="8"></td></tr>
  <tr><td>Contraseña </td> <td>
