@@ -4,6 +4,8 @@ session_start();
 include_once 'app/funciones.php';
 include_once 'app/acciones.php';
 
+$_SESSION['msg'] = "";
+
 // Tabla de usuarios
 if (!isset ($_SESSION['tuser'])){
     $_SESSION['tuser'] = cargarDatos();  
@@ -33,6 +35,7 @@ else {
          }
     }
 }
+$msg = $_SESSION['msg'];
 $contenido .= mostrarDatos();
 // Muestro la página principal
 include_once "app/layout/principal.php";

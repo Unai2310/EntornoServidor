@@ -26,6 +26,7 @@ function accionAlta(){
 function accionBorrar($id) {
     unset($_SESSION['tuser'][$id]);
     sort($_SESSION['tuser']);
+    $_SESSION['msg'] = "Se ha borrado el usuario";
 }
 
 function accionModificar($columna) {
@@ -37,6 +38,10 @@ function accionModificar($columna) {
     $orden = "Modificar";
     include_once "layout/formulario.php";
     exit();
+}
+
+function accionTerminar() {
+    
 }
 
 function accionPostAlta(){
@@ -52,7 +57,6 @@ function accionPostAlta(){
     if (!$esta) {
         $_SESSION['tuser'][]= $nuevo;
     } 
-    
 }
 
 function accionPostModificar() {
@@ -64,5 +68,3 @@ function accionPostModificar() {
         }
     }
 }
-
-

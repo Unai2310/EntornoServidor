@@ -12,6 +12,8 @@
 <h1>GESTIÓN DE USUARIOS versión 1.0</h1>
 </div>
 <div id="content">
+<?= $msg ?>
+<br>
 <?= $contenido ?>
 <form>
 <input type="submit" name="orden" value="Nuevo">

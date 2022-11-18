@@ -35,8 +35,12 @@ function cargarDatostxt(){
 }
 //Vuelca los datos a un fichero de texto
 function volcarDatostxt($tvalores){
-
-    
+    if (!is_readable(FILEUSER) ){
+        // El directorio donde se crea tiene que tener permisos adecuados
+        $fich = @fopen(FILEUSER,"w") or die ("Error al crear el fichero.");
+        fclose($fich);
+    }
+    $fich = @fopen(FILEUSER, 'r') or die("ERROR al abrir fichero de usuarios");
 }
 
 // ----------------------------------------------------
