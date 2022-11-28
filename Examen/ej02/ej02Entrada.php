@@ -1,3 +1,6 @@
+<?php
+    $_SESSION["token"] = md5(uniqid(mt_rand(), true));
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -16,6 +19,7 @@
         <label for="telefono">Teléfono:</label><br>
         <input type='tel' name='telefono' size=20 value ="<?= isset($telefono)?$telefono:'' ?>">
         <input type='submit' name="orden" value="Añadir">
+        <input type="hidden" name="token" value="<?= $_SESSION["token"] ?>" >
     </fieldset>
     </form>
     <p><?= isset($msg)?$msg:''?></p>
