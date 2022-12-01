@@ -11,13 +11,12 @@
 <div id="header">
 <h1>GESTIÓN DE USUARIOS versión 1.0</h1>
 </div>
+<div id="msg"> <?= $msg ?></div>
 <div id="content">
-<?= $msg ?>
-<br>
 <?= $contenido ?>
 <form>
 <input type="submit" name="orden" value="Nuevo">
-<input type="submit" name="orden" value="Terminar">
+<input type="button" name="orden" value="Terminar" onclick="confirmarCerrar(' Desea guardar los datos')">
 </form>
 </div>
 </div>

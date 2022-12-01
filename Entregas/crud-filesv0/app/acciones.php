@@ -1,6 +1,40 @@
 <?php
+function accionBorrar ($id){    
+    
+    unset($_SESSION['tuser'][$id]); // Borrar el elemento
+    // Reindexa el indice 0,1,2 de la array 
+    $_SESSION['tuser'] = array_values($_SESSION['tuser']);
+    $_SESSION['msg'] = "El usuario ha sido eliminado";
+}
 
-include_once 'app/funciones.php';
+function accionTerminar(){
+    volcarDatos($_SESSION['tuser']);
+    session_destroy();
+    $_SESSION['msg'] = " Los datos se han volcado al fichero.";
+}
+ 
+function accionAlta(){
+    $nombre  = "";
+    $login   = "";
+    $clave   = "";
+    $comentario = "";
+    $orden= "Nuevo";
+    include_once "layout/formulario.php";
+}
+
+
+function accionRepetirAlta($msgformulario){
+  
+    $nombre  =  $_POST['nombre'];
+    $login   =  $_POST['login'];
+    $clave   =   $_POST['clave'];
+    $comentario =  $_POST['comentario'];
+    $orden= "Nuevo";
+    $msg = $msgformulario;
+    include_once "layout/formulario.php";
+}
+
+
 
 function accionDetalles($id){
     $usuario = $_SESSION['tuser'][$id];
@@ -10,61 +44,64 @@ function accionDetalles($id){
     $comentario=$usuario[3];
     $orden = "Detalles";
     include_once "layout/formulario.php";
-    exit();
 }
 
-function accionAlta(){
-    $nombre  = "";
-    $login   = "";
-    $clave   = "";
-    $comentario = "";
-    $orden= "Nuevo";
-    include_once "layout/formulario.php";
-    exit();
-}
 
-function accionBorrar($id) {
-    unset($_SESSION['tuser'][$id]);
-    sort($_SESSION['tuser']);
-    $_SESSION['msg'] = "Se ha borrado el usuario";
-}
-
-function accionModificar($columna) {
-    $usuario = $_SESSION['tuser'][$columna];
+function accionModificar($id){
+    $usuario = $_SESSION['tuser'][$id];
     $nombre  = $usuario[0];
     $login   = $usuario[1];
     $clave   = $usuario[2];
     $comentario=$usuario[3];
-    $orden = "Modificar";
+    $orden="Modificar";
     include_once "layout/formulario.php";
-    exit();
-}
-
-function accionTerminar() {
-    
 }
 
 function accionPostAlta(){
+ 
     limpiarArrayEntrada($_POST); //Evito la posible inyección de código
-    $nuevo = [ $_POST['nombre'],$_POST['login'],$_POST['clave'],$_POST['comentario']];
-    $esta = false;
-    foreach ($_SESSION['tuser'] as $clave => $valor) {
-        if ($valor[1] == $nuevo[1]) {
-            $esta = true;
-            break;
-        }
+
+    $msgerror = "";
+    if ( empty($_POST['nombre']) ||
+         empty($_POST['login'])  ||
+         empty($_POST['clave'])  ||
+         empty($_POST['comentario']) ){
+         $msgerror= "Todos los campos tienen que ser rellenados";
+         accionRepetirAlta($msgerror);
+         return;
     }
-    if (!$esta) {
-        $_SESSION['tuser'][]= $nuevo;
+    
+
+    foreach ($_SESSION['tuser'] as $usuario){
+        if ($usuario[1] == $_POST['login']){
+            $existe = true;
+            $msgerror = " El valor de login está repetido";
+            accionRepetirAlta($msgerror);
+            return;
+        }
     } 
+
+
+    $nuevo = [ $_POST['nombre'],$_POST['login'],$_POST['clave'],$_POST['comentario']];
+    $_SESSION['tuser'][]= $nuevo;
+    $_SESSION['msg'] = " Nuevo usuario almacenado.";
+    
+
 }
 
-function accionPostModificar() {
-    limpiarArrayEntrada($_POST);
-    $modificado = [$_POST['nombre'],$_POST['login'],$_POST['clave'],$_POST['comentario']];
-    foreach ($_SESSION['tuser'] as $clave => $valor) {
-        if ($valor[1] == $modificado[1]) {
-            $_SESSION['tuser'][$clave] = $modificado;
+function accionPostModificar(){
+    limpiarArrayEntrada($_POST); //Evito la posible inyección de código
+    $i=0;
+    foreach ($_SESSION['tuser'] as $usuario){
+        if ($usuario[1] == $_POST['login']){
+            $usuario[0]= $_POST['nombre'];
+            $usuario[2]= $_POST['clave'];
+            $usuario[3]= $_POST['comentario'];
+            $_SESSION['tuser'][$i] = $usuario;
+            break;
         }
+        $i++;
     }
+    
 }
+

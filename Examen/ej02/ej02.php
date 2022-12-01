@@ -36,7 +36,7 @@ if ( $_SERVER["REQUEST_METHOD"] == 'GET' or $error ){
 function buscarDatostxt($contacto){
     $tabla=[]; 
     if (!is_readable("files/contactos.txt") ){
-        $fich = @fopen(FILEUSER,"w") or die ("Error al crear el fichero.");
+        $fich = @fopen("files/contactos.txt","w") or die ("Error al crear el fichero.");
         fclose($fich);
     }
     $fich = @fopen("files/contactos.txt", 'r') or die("ERROR al abrir fichero de contactos");

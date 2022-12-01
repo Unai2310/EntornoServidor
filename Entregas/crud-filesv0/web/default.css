@@ -6,6 +6,11 @@ body {
   color: #757E82;
 }
 
+#msg {
+   text-align: center;
+   color:chocolate;
+}
+
 #container {
   margin: 0 auto;
   width: 800px;
@@ -49,11 +54,6 @@ body {
 
 li {
   padding: 18px;
-}
-
-#aviso {
-	background: red;
-	color: black;
 }
 
 a {
