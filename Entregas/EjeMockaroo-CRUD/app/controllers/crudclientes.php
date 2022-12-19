@@ -23,11 +23,15 @@ function crudDetalles($id){
 }
 
 function crudDetallesSiguiente($id){
-    include_once "app/views/todo.php";
+    $db = AccesoDatos::getModelo();
+    $cli = $db->getClienteSiguiente($id);
+    include_once "app/views/detalles.php";
 }
 
 function crudDetallesAnterior($id){
-   include_once "app/views/todo.php";
+    $db = AccesoDatos::getModelo();
+    $cli = $db->getClienteAnterior($id);
+    include_once "app/views/detalles.php";
 }
 
 
