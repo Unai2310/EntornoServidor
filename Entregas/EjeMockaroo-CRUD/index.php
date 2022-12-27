@@ -12,6 +12,7 @@ require_once 'app/controllers/crudclientes.php';
 //---- PAGINACIÓN ----
 $midb = AccesoDatos::getModelo();
 $totalfilas = $midb->numClientes();
+$_SESSION['tfilas'] = $totalfilas;
 if ( $totalfilas % FPAG == 0){
     $posfin = $totalfilas - FPAG;
 } else {
@@ -42,13 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" ){
 
 
      // Proceso las ordenes de navegación en detalles
-    if ( isset($_GET['nav-detalles']) && isset($_GET['id']) ) {
-     switch ( $_GET['nav-detalles']) {
-        case "Siguiente": crudDetallesSiguiente($_GET['id']); break;
-        case "Anterior" : crudDetallesAnterior($_GET['id']); break;
-        
+    if ( isset($_GET['nav-detalles']) && isset($_GET['id'])) {
+        switch ( $_GET['nav-detalles']) {
+            case "Siguiente": crudDetallesSiguiente($_GET['id']); break;
+            case "Anterior" : crudDetallesAnterior($_GET['id']); break;        
+        }
     }
-     }
 
     // Proceso de ordenes de CRUD clientes
     if ( isset($_GET['orden'])){
@@ -58,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" ){
             case "Modificar": crudModificar($_GET['id']); break;
             case "Detalles" : crudDetalles ($_GET['id']);break;
             case "Terminar" : crudTerminar(); break;
+            case "Ordenar"  : crudOrdenar($_GET['clave']); break;
         }
     }
 } 
@@ -70,15 +71,27 @@ else {
              case "Detalles":; // No hago nada
          }
     }
+
+    if ( isset($_POST['nav-detalles']) && isset($_GET['id'])) {
+        switch ( $_POST['nav-detalles']) {
+            case "SiguienteM": crudModificarSiguiente($_POST['id']); break;
+            case "AnteriorM" : crudModificarAnterior($_POST['id']); break;        
+        }
+    }
 }
 
 // Si no hay nada en la buffer 
 // Cargo genero la vista con la lista por defecto
 if ( ob_get_length() == 0){
-    $db = AccesoDatos::getModelo();
-    $posini = $_SESSION['posini'];
-    $tvalores = $db->getClientes($posini,FPAG);
-    require_once "app/views/list.php";    
+    if (isset($_SESSION['clave'])) {
+        crudOrdenar($_SESSION['clave']);
+    } else {
+        $db = AccesoDatos::getModelo();
+        $posini = $_SESSION['posini'];
+        $tvalores = $db->getClientes($posini,FPAG);
+        require_once "app/views/list.php";   
+    }
+     
 }
 $contenido = ob_get_clean();
 

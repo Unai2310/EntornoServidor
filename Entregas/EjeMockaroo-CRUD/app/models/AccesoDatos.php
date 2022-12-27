@@ -102,13 +102,12 @@ class AccesoDatos {
         $stmt_usuario   = $this->dbh->prepare("select * from Clientes where id >? limit 1");
         if ( $stmt_usuario == false) die ($this->dbh->error);
 
-        // Enlazo $login con el primer ? 
-        $stmt_usuario->bind_param("i",$id);
+        $stmt_usuario->bind_param("s",$id);
         $stmt_usuario->execute();
         $result = $stmt_usuario->get_result();
         if ( $result ){
             $cli = $result->fetch_object('Cliente');
-            }
+        }
         
         return $cli;
 
@@ -133,6 +132,20 @@ class AccesoDatos {
 
     }
 
+    public function getClientesOrden($clave, $primero, $cuantos) {
+        $tuser = [];
+        $stmt_usuarios  = $this->dbh->prepare("select * from Clientes order by $clave limit $primero,$cuantos");
+
+        if ( $stmt_usuarios == false) die (__FILE__.':'.__LINE__.$this->dbh->error);
+        $stmt_usuarios->execute();
+        $result = $stmt_usuarios->get_result();
+        if ( $result ){
+            while ( $user = $result->fetch_object('Cliente') ){
+               $tuser[]= $user;
+            }
+        }
+        return $tuser;
+    }
 
 
 

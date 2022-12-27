@@ -16,6 +16,14 @@ function crudAlta(){
     include_once "app/views/formulario.php";
 }
 
+function crudOrdenar($clave) {
+    $db = AccesoDatos::getModelo();
+    $posini = $_SESSION['posini'];
+    $_SESSION['clave'] = $clave;
+    $tvalores = $db->getClientesOrden($clave,$posini,FPAG);
+    require_once "app/views/list.php";   
+}
+
 function crudDetalles($id){
     $db = AccesoDatos::getModelo();
     $cli = $db->getCliente($id);
@@ -25,13 +33,35 @@ function crudDetalles($id){
 function crudDetallesSiguiente($id){
     $db = AccesoDatos::getModelo();
     $cli = $db->getClienteSiguiente($id);
-    include_once "app/views/detalles.php";
+    if (isset($cli)) {
+        include_once "app/views/detalles.php";
+    }
 }
 
 function crudDetallesAnterior($id){
     $db = AccesoDatos::getModelo();
     $cli = $db->getClienteAnterior($id);
-    include_once "app/views/detalles.php";
+    if (isset($cli)) {
+        include_once "app/views/detalles.php";
+    }
+}
+
+function crudModificarSiguiente($id){
+    $db = AccesoDatos::getModelo();
+    $cli = $db->getClienteSiguiente($id);
+    $orden="Modificar";
+    if (isset($cli)) {
+        include_once "app/views/formulario.php";
+    }
+}
+
+function crudModificarAnterior($id){
+    $db = AccesoDatos::getModelo();
+    $cli = $db->getClienteAnterior($id);
+    $orden="Modificar";
+    if (isset($cli)) {
+        include_once "app/views/formulario.php";
+    }
 }
 
 

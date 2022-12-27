@@ -5,8 +5,9 @@
 <br>
 
 <table>
-<tr><th>id</th><th>first_name</th><th>email</th>
-<th>gender</th><th>ip_address</th><th>teléfono</th></tr>
+<tr><th><a href="?orden=Ordenar&clave=id">id</a></th><th><a href="?orden=Ordenar&clave=first_name">first_name</a></th>
+<th><a href="?orden=Ordenar&clave=email">email</a></th><th><a href="?orden=Ordenar&clave=gender">gender</a></th>
+<th><a href="?orden=Ordenar&clave=ip_address">ip_address</a></th><th><a href="?orden=Ordenar&clave=telefono">teléfono</a></th></tr>
 <?php foreach ($tvalores as $valor): ?>
 <tr>
 <td><?= $valor->id ?> </td>
