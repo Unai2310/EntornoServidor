@@ -30,34 +30,34 @@ function crudDetalles($id){
     include_once "app/views/detalles.php";
 }
 
-function crudDetallesSiguiente($id){
+function crudDetallesSiguiente($id,$clave){
     $db = AccesoDatos::getModelo();
-    $cli = $db->getClienteSiguiente($id);
+    $cli = $db->getClienteSiguiente($id,$clave);
     if (isset($cli)) {
         include_once "app/views/detalles.php";
     }
 }
 
-function crudDetallesAnterior($id){
+function crudDetallesAnterior($id,$clave){
     $db = AccesoDatos::getModelo();
-    $cli = $db->getClienteAnterior($id);
+    $cli = $db->getClienteAnterior($id,$clave);
     if (isset($cli)) {
         include_once "app/views/detalles.php";
     }
 }
 
-function crudModificarSiguiente($id){
+function crudModificarSiguiente($id,$clave){
     $db = AccesoDatos::getModelo();
-    $cli = $db->getClienteSiguiente($id);
+    $cli = $db->getClienteSiguiente($id,$clave);
     $orden="Modificar";
     if (isset($cli)) {
         include_once "app/views/formulario.php";
     }
 }
 
-function crudModificarAnterior($id){
+function crudModificarAnterior($id,$clave){
     $db = AccesoDatos::getModelo();
-    $cli = $db->getClienteAnterior($id);
+    $cli = $db->getClienteAnterior($id,$clave);
     $orden="Modificar";
     if (isset($cli)) {
         include_once "app/views/formulario.php";

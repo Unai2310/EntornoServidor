@@ -45,8 +45,17 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" ){
      // Proceso las ordenes de navegación en detalles
     if ( isset($_GET['nav-detalles']) && isset($_GET['id'])) {
         switch ( $_GET['nav-detalles']) {
-            case "Siguiente": crudDetallesSiguiente($_GET['id']); break;
-            case "Anterior" : crudDetallesAnterior($_GET['id']); break;        
+            case "Siguiente": 
+            if (!isset($_SESSION['clave'])) {
+                $_SESSION['clave'] = "id";
+            }
+            crudDetallesSiguiente($_GET[$_SESSION['clave']],$_SESSION['clave']); break;
+
+            case "Anterior" : 
+            if (!isset($_SESSION['clave'])) {
+                $_SESSION['clave'] = "id";
+            }
+            crudDetallesAnterior($_GET[$_SESSION['clave']],$_SESSION['clave']); break;     
         }
     }
 
@@ -74,8 +83,15 @@ else {
 
     if ( isset($_POST['nav-detalles']) && isset($_GET['id'])) {
         switch ( $_POST['nav-detalles']) {
-            case "SiguienteM": crudModificarSiguiente($_POST['id']); break;
-            case "AnteriorM" : crudModificarAnterior($_POST['id']); break;        
+            case "SiguienteM": 
+            if (!isset($_SESSION['clave'])) {
+                $_SESSION['clave'] = "id";
+            }
+            crudModificarSiguiente($_POST[$_SESSION['clave']],$_SESSION['clave']); break;
+            case "AnteriorM" : 
+            if (!isset($_SESSION['clave'])) {
+                $_SESSION['clave'] = "id";
+            }crudModificarAnterior($_POST[$_SESSION['clave']],$_SESSION['clave']); break;        
         }
     }
 }

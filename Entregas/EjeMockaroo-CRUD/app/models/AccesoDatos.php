@@ -95,11 +95,11 @@ class AccesoDatos {
         return $cli;
     }
      
-    public function getClienteSiguiente($id){
+    public function getClienteSiguiente($id, $clave){
 
         $cli = false;
         
-        $stmt_usuario   = $this->dbh->prepare("select * from Clientes where id >? limit 1");
+        $stmt_usuario   = $this->dbh->prepare("select * from Clientes where ".$clave." > ? ORDER BY ".$clave." ASC limit 1");
         if ( $stmt_usuario == false) die ($this->dbh->error);
 
         $stmt_usuario->bind_param("s",$id);
@@ -113,21 +113,20 @@ class AccesoDatos {
 
     }
 
-    public function getClienteAnterior($id){
+    public function getClienteAnterior($id,$clave){
 
         $cli = false;
         
-        $stmt_usuario   = $this->dbh->prepare("select * from Clientes where id <? order by id DESC limit 1");
+        $stmt_usuario   = $this->dbh->prepare("select * from Clientes where ".$clave." < ? ORDER BY ".$clave." DESC limit 1");
         if ( $stmt_usuario == false) die ($this->dbh->error);
 
-        // Enlazo $login con el primer ? 
-        $stmt_usuario->bind_param("i",$id);
+        $stmt_usuario->bind_param("s",$id);
         $stmt_usuario->execute();
         $result = $stmt_usuario->get_result();
         if ( $result ){
             $cli = $result->fetch_object('Cliente');
-            }
-        
+        }
+
         return $cli;
 
     }

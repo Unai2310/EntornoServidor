@@ -29,6 +29,12 @@
  
 <form>
 <input type="hidden"  name="id" value="<?=$cli->id ?>">
+<input type="hidden"  name="first_name" value="<?=$cli->first_name ?>">
+<input type="hidden"  name="last_name" value="<?=$cli->last_name ?>">
+<input type="hidden"  name="email" value="<?=$cli->email ?>">
+<input type="hidden"  name="gender" value="<?=$cli->gender ?>">
+<input type="hidden"  name="ip_address" value="<?=$cli->ip_address ?>">
+<input type="hidden"  name="telefono" value="<?=$cli->telefono ?>">
 <button type="submit" name="nav-detalles" value="Anterior"> Anterior << </button>
 <button type="submit" name="nav-detalles" value="Siguiente"> Siguiente >> </button>
 </form> 
