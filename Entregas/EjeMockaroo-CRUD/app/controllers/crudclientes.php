@@ -1,5 +1,5 @@
 <?php
-
+require_once('funciones.php');
 function crudBorrar ($id){    
     $db = AccesoDatos::getModelo();
     $tuser = $db->borrarCliente($id);
@@ -27,6 +27,10 @@ function crudOrdenar($clave) {
 function crudDetalles($id){
     $db = AccesoDatos::getModelo();
     $cli = $db->getCliente($id);
+    $country = getCountry($cli->ip_address);
+    if  (isset($country)) {
+        $bandera = "https://flagcdn.com/32x24/".strtolower($country).".png";
+    }
     include_once "app/views/detalles.php";
 }
 
@@ -34,6 +38,10 @@ function crudDetallesSiguiente($id,$clave){
     $db = AccesoDatos::getModelo();
     $cli = $db->getClienteSiguiente($id,$clave);
     if (isset($cli)) {
+        $country = getCountry($cli->ip_address);
+        if  (isset($country)) {
+            $bandera = "https://flagcdn.com/32x24/".strtolower($country).".png";
+        }
         include_once "app/views/detalles.php";
     }
 }
@@ -42,6 +50,10 @@ function crudDetallesAnterior($id,$clave){
     $db = AccesoDatos::getModelo();
     $cli = $db->getClienteAnterior($id,$clave);
     if (isset($cli)) {
+        $country = getCountry($cli->ip_address);
+        if  (isset($country)) {
+            $bandera = "https://flagcdn.com/32x24/".strtolower($country).".png";
+        }
         include_once "app/views/detalles.php";
     }
 }
@@ -83,6 +95,7 @@ function crudPostAlta(){
     $cli->ip_address    =$_POST['ip_address'];
     $cli->telefono      =$_POST['telefono'];
     $db = AccesoDatos::getModelo();
+    
     $db->addCliente($cli);
     
 }

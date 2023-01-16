@@ -1,5 +1,6 @@
 <hr>
 <button onclick="location.href='./'" > Volver </button>
+<img id="flag" src="<?= isset($bandera)?$bandera:'https://via.placeholder.com/32x24.png' ?>"></img>
 <br><br>
 <table>
  <tr><td>id:</td> 
