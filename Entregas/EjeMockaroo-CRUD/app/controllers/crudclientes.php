@@ -1,5 +1,6 @@
 <?php
-require_once('funciones.php');
+require_once ('funciones.php');
+
 function crudBorrar ($id){    
     $db = AccesoDatos::getModelo();
     $tuser = $db->borrarCliente($id);
@@ -95,8 +96,18 @@ function crudPostAlta(){
     $cli->ip_address    =$_POST['ip_address'];
     $cli->telefono      =$_POST['telefono'];
     $db = AccesoDatos::getModelo();
+    if ($cli->first_name=="" || $cli->last_name=="" || $cli->email=="" || $cli->gender=="" || $cli->ip_address=="" || $cli->telefono=="") {
+        $msg = "Hay algun campo vacio, por favor rellenalos todos para poder continuar";
+        $orden = "Nuevo";
+        include_once "app/views/formulario.php";
+    }else if ($db->emailRepetido($cli->email)) {
+        $msg = "El email introducido esta repetido en la base de datos";
+        $orden = "Nuevo";
+        include_once "app/views/formulario.php";
+    } else {
+        $db->addCliente($cli);
+    }
     
-    $db->addCliente($cli);
     
 }
 

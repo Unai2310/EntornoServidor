@@ -1,5 +1,6 @@
 
 <hr>
+<?= isset($msg)?$msg:'' ?>
 <form   method="POST">
 <table>
  <tr><td>id:</td> 

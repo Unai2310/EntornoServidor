@@ -147,8 +147,6 @@ class AccesoDatos {
     }
 
     public function emailRepetido($email) {
-        $cli = false;
-        
         $stmt_usuario   = $this->dbh->prepare("select * from Clientes where email =?");
         if ( $stmt_usuario == false) die ($this->dbh->error);
 
@@ -157,9 +155,15 @@ class AccesoDatos {
         $result = $stmt_usuario->get_result();
         if ( $result ){
             $cli = $result->fetch_object('Cliente');
-            }
+        }
+
+        if ($cli) {
+            echo "hola";
+            return true;
+        } else {
+            return false;
+        }  
         
-        return $cli;
     }
 
     // UPDATE TODO
