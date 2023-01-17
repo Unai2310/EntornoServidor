@@ -105,8 +105,16 @@ function crudPostAlta(){
         $msg = "El email introducido esta repetido en la base de datos";
         $orden = "Nuevo";
         include_once "app/views/formulario.php";
+    } else if (!regexEmail($_POST['email'])) {
+        $msg = "El email introducido no tiene un formato correcto";
+        $orden = "Nuevo";
+        include_once "app/views/formulario.php";
     } else if (!regexIp($_POST['ip_address'])){
         $msg = "La dirección IP introducida no tiene un formato correcto";
+        $orden = "Nuevo";
+        include_once "app/views/formulario.php";
+    } else if (!regexTel($_POST['telefono'])) {
+        $msg = "El telefono introducido no tiene un formato correcto";
         $orden = "Nuevo";
         include_once "app/views/formulario.php";
     } else {
@@ -137,8 +145,16 @@ function crudPostModificar(){
         $msg = "El email introducido esta repetido en la base de datos";
         $orden = "Modificar";
         include_once "app/views/formulario.php";
-    } else if (!regexIp($_POST['ip_address'])) {
+    } else if (!regexEmail($_POST['email'])) {
+        $msg = "El email introducido no tiene un formato correcto";
+        $orden = "Modificar";
+        include_once "app/views/formulario.php";
+    } else if (!regexIp($_POST['ip_address'])){
         $msg = "La dirección IP introducida no tiene un formato correcto";
+        $orden = "Modificar";
+        include_once "app/views/formulario.php";
+    } else if (!regexTel($_POST['telefono'])) {
+        $msg = "El telefono introducido no tiene un formato correcto";
         $orden = "Modificar";
         include_once "app/views/formulario.php";
     } else {
