@@ -14,6 +14,7 @@ function crudTerminar(){
 function crudAlta(){
     $cli = new Cliente();
     $orden= "Nuevo";
+    $btn = "disabled";
     include_once "app/views/formulario.php";
 }
 
@@ -104,6 +105,10 @@ function crudPostAlta(){
         $msg = "El email introducido esta repetido en la base de datos";
         $orden = "Nuevo";
         include_once "app/views/formulario.php";
+    } else if (!regexIp($_POST['ip_address'])){
+        $msg = "La dirección IP introducida no tiene un formato correcto";
+        $orden = "Nuevo";
+        include_once "app/views/formulario.php";
     } else {
         $db->addCliente($cli);
     }
@@ -123,6 +128,20 @@ function crudPostModificar(){
     $cli->ip_address    =$_POST['ip_address'];
     $cli->telefono      =$_POST['telefono'];
     $db = AccesoDatos::getModelo();
-    $db->modCliente($cli);
-    
+    $repetido = $db->emailRepetidoMod($_POST['email']);
+    if ($cli->first_name=="" || $cli->last_name=="" || $cli->email=="" || $cli->gender=="" || $cli->ip_address=="" || $cli->telefono=="") {
+        $msg = "Hay algun campo vacio, por favor rellenalos todos para poder continuar";
+        $orden = "Modificar";
+        include_once "app/views/formulario.php";
+    }else if ($repetido[0] != $cli->id && isset($repetido)) {
+        $msg = "El email introducido esta repetido en la base de datos";
+        $orden = "Modificar";
+        include_once "app/views/formulario.php";
+    } else if (!regexIp($_POST['ip_address'])) {
+        $msg = "La dirección IP introducida no tiene un formato correcto";
+        $orden = "Modificar";
+        include_once "app/views/formulario.php";
+    } else {
+        $db->modCliente($cli);
+    }
 }

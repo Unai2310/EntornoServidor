@@ -27,7 +27,7 @@
  </table>
  <input type="submit"	 name="orden" 	value="<?=$orden?>">
  <input type="submit"	 name="orden" 	value="Volver">
- <button type="submit" name="nav-detalles" value="AnteriorM"> Anterior << </button>
- <button type="submit" name="nav-detalles" value="SiguienteM"> Siguiente >> </button>
+ <button type="submit" name="nav-detalles" value="AnteriorM" <?= isset($btn)?$btn:'' ?>> Anterior << </button>
+ <button type="submit" name="nav-detalles" value="SiguienteM" <?= isset($btn)?$btn:'' ?>> Siguiente >> </button>
 </form> 
 

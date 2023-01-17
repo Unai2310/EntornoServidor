@@ -165,6 +165,23 @@ class AccesoDatos {
         }
     }
 
+    public function emailRepetidoMod($email) {
+        $id = "";
+
+        $stmt_usuario   = $this->dbh->prepare("select id from Clientes where email =?");
+        if ( $stmt_usuario == false) die ($this->dbh->error);
+        
+        $stmt_usuario->bind_param("s",$email);
+        $stmt_usuario->execute();
+        $result = $stmt_usuario->get_result();
+        if ( $result ){
+            $id = $result->fetch_row();
+        }
+
+        return $id;
+        
+    }
+
     // UPDATE TODO
     public function modCliente($cli):bool{
       
