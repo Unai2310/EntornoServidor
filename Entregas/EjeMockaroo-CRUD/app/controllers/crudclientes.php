@@ -100,7 +100,7 @@ function crudPostAlta(){
         $msg = "Hay algun campo vacio, por favor rellenalos todos para poder continuar";
         $orden = "Nuevo";
         include_once "app/views/formulario.php";
-    }else if ($db->emailRepetido($cli->email)) {
+    }else if ($db->emailRepetido($_POST['email'])) {
         $msg = "El email introducido esta repetido en la base de datos";
         $orden = "Nuevo";
         include_once "app/views/formulario.php";
