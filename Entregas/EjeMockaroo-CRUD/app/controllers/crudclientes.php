@@ -33,6 +33,11 @@ function crudDetalles($id){
     if  (isset($country)) {
         $bandera = "https://flagcdn.com/32x24/".strtolower($country).".png";
     }
+    if (file_exists("/home/unai/php/EntornoServidor/Entregas/EjeMockaroo-CRUD/app/uploads/".$cli->id.".jpg")) {
+        $foto = "http://localhost/unai/EntornoServidor/Entregas/EjeMockaroo-CRUD/app/uploads/".$cli->id.".jpg";
+    } else {
+        $foto = "https://robohash.org/".$cli->id;
+    }
     include_once "app/views/detalles.php";
 }
 
@@ -43,6 +48,11 @@ function crudDetallesSiguiente($id,$clave){
         $country = getCountry($cli->ip_address);
         if  (isset($country)) {
             $bandera = "https://flagcdn.com/32x24/".strtolower($country).".png";
+        }
+        if (file_exists("/home/unai/php/EntornoServidor/Entregas/EjeMockaroo-CRUD/app/uploads/".$cli->id.".jpg")) {
+            $foto = "http://localhost/unai/EntornoServidor/Entregas/EjeMockaroo-CRUD/app/uploads/".$cli->id.".jpg";
+        } else {
+            $foto = "https://robohash.org/".$cli->id;
         }
         include_once "app/views/detalles.php";
     }
@@ -55,6 +65,11 @@ function crudDetallesAnterior($id,$clave){
         $country = getCountry($cli->ip_address);
         if  (isset($country)) {
             $bandera = "https://flagcdn.com/32x24/".strtolower($country).".png";
+        }
+        if (file_exists("/home/unai/php/EntornoServidor/Entregas/EjeMockaroo-CRUD/app/uploads/".$cli->id.".jpg")) {
+            $foto = "http://localhost/unai/EntornoServidor/Entregas/EjeMockaroo-CRUD/app/uploads/".$cli->id.".jpg";
+        } else {
+            $foto = "https://robohash.org/".$cli->id;
         }
         include_once "app/views/detalles.php";
     }

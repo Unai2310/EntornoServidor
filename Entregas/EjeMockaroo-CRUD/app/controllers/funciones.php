@@ -19,4 +19,6 @@ function regexTel($tel) {
 function regexEmail($email) {
     return preg_match("/^\S+@\S+\.\S+$/",$email);
 }
+
+
 ?>
