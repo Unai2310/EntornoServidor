@@ -50,7 +50,7 @@ function crudDetallesSiguiente($id,$clave){
             $bandera = "https://flagcdn.com/32x24/".strtolower($country).".png";
         }
         if (file_exists("/home/unai/php/EntornoServidor/Entregas/EjeMockaroo-CRUD/app/uploads/".$cli->id.".jpg")) {
-            $foto = "http://localhost/unai/EntornoServidor/Entregas/EjeMockaroo-CRUD/app/uploads/".$cli->id.".jpg";
+            $foto = "/home/unai/php/EntornoServidor/Entregas/EjeMockaroo-CRUD/app/uploads/" . $cli->id . ".jpg";
         } else {
             $foto = "https://robohash.org/".$cli->id;
         }
