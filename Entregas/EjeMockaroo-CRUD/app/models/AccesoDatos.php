@@ -23,9 +23,8 @@ class AccesoDatos {
    // Constructor privado  Patron singleton
    
     private function __construct(){
-        
-       
-         $this->dbh = new mysqli(DB_SERVER,DB_USER,DB_PASSWD,DATABASE);
+
+        $this->dbh = new mysqli(DB_SERVER,DB_USER,DB_PASSWD,DATABASE);
          
       if ( $this->dbh->connect_error){
          die(" Error en la conexión ".$this->dbh->connect_errno);

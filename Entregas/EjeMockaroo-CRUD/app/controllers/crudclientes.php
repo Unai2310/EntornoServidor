@@ -80,7 +80,12 @@ function crudModificarSiguiente($id,$clave){
     $cli = $db->getClienteSiguiente($id,$clave);
     $orden="Modificar";
     if (isset($cli)) {
-        include_once "app/views/formulario.php";
+        if (file_exists("app/uploads/".$cli->id.".jpg")) {
+            $foto = "app/views/send_img.php?id=".$cli->id.".jpg";
+        } else {
+            $foto = "https://robohash.org/".$cli->id;
+        }
+        include_once "app/views/detalles.php";
     }
 }
 
@@ -89,10 +94,14 @@ function crudModificarAnterior($id,$clave){
     $cli = $db->getClienteAnterior($id,$clave);
     $orden="Modificar";
     if (isset($cli)) {
-        include_once "app/views/formulario.php";
+        if (file_exists("app/uploads/".$cli->id.".jpg")) {
+            $foto = "app/views/send_img.php?id=".$cli->id.".jpg";
+        } else {
+            $foto = "https://robohash.org/".$cli->id;
+        }
+        include_once "app/views/detalles.php";
     }
 }
-
 
 function crudModificar($id){
     $db = AccesoDatos::getModelo();
@@ -115,22 +124,27 @@ function crudPostAlta(){
     if ($cli->first_name=="" || $cli->last_name=="" || $cli->email=="" || $cli->gender=="" || $cli->ip_address=="" || $cli->telefono=="") {
         $msg = "Hay algun campo vacio, por favor rellenalos todos para poder continuar";
         $orden = "Nuevo";
+        $btn = "disabled";
         include_once "app/views/formulario.php";
     }else if ($db->emailRepetido($_POST['email'])) {
         $msg = "El email introducido esta repetido en la base de datos";
         $orden = "Nuevo";
+        $btn = "disabled";
         include_once "app/views/formulario.php";
     } else if (!regexEmail($_POST['email'])) {
         $msg = "El email introducido no tiene un formato correcto";
         $orden = "Nuevo";
+        $btn = "disabled";
         include_once "app/views/formulario.php";
     } else if (!regexIp($_POST['ip_address'])){
         $msg = "La dirección IP introducida no tiene un formato correcto";
         $orden = "Nuevo";
+        $btn = "disabled";
         include_once "app/views/formulario.php";
     } else if (!regexTel($_POST['telefono'])) {
         $msg = "El telefono introducido no tiene un formato correcto";
         $orden = "Nuevo";
+        $btn = "disabled";
         include_once "app/views/formulario.php";
     } else {
         $db->addCliente($cli);

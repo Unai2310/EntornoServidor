@@ -1,10 +1,15 @@
 
 <hr>
+<button onclick="location.href='./'" > Volver </button>
+<br>
 <?= isset($msg)?$msg:'' ?>
+<br>
 <form   method="POST">
 <table>
  <tr><td>id:</td> 
- <td><input type="number" name="id" value="<?=$cli->id ?>"  readonly  ></td></tr>
+ <td><input type="number" name="id" value="<?=$cli->id ?>"  readonly  ></td>
+ <td rowspan="7">
+<img src='<?= isset($foto)?$foto:'' ?>'></img></td> 
  </tr>
  <tr><td>first_name:</td> 
  <td><input type="text" name="first_name" value="<?=$cli->first_name ?>" autofocus  ></td></tr>
@@ -26,16 +31,7 @@
  </tr>
  </table>
  <input type="submit"	 name="orden" 	value="<?=$orden?>">
- <input type="submit"	 name="orden" 	value="Volver">
  <button type="submit" name="nav-detalles" value="AnteriorM" <?= isset($btn)?$btn:'' ?>> Anterior << </button>
  <button type="submit" name="nav-detalles" value="SiguienteM" <?= isset($btn)?$btn:'' ?>> Siguiente >> </button>
- <fieldset>
-    <legend>Subir fotos</legend>
-    <label>Elija la imagen que quieres subir:</label> 
-    <input type="hidden" name="MAX_FILE_SIZE" value="1000000" /> 
-    <input name="archivos" type="file" accept="image/jpeg"> <br />
-    <input type="submit" value=" Subir archivos " />
-    <input type="reset"  value=" Borrar selección ">
-  </fieldset>
 </form> 
 
