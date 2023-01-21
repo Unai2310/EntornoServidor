@@ -1,6 +1,4 @@
 <?php
-    header('Content-Type: image/jpeg');
-    $hola = "Hola";
-    var_dump($hola);
-    readfile("/home/unai/php/EntornoServidor/Entregas/EjeMockaroo-CRUD/app/uploads/1.jpg");
+    header('Content-Type: image/jpg');
+    readfile(__DIR__."/../uploads/".$_GET["id"]);
 ?>
