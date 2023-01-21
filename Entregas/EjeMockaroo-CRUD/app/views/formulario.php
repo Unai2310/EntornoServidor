@@ -1,15 +1,24 @@
 
 <hr>
+<script>
+    var loadFile = function(event) {
+    var output = document.getElementById('fotografia');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src);
+    }
+  };
+</script>
 <button onclick="location.href='./'" > Volver </button>
 <br>
 <?= isset($msg)?$msg:'' ?>
 <br>
-<form   method="POST">
+<form   method="POST" enctype="multipart/form-data">
 <table>
  <tr><td>id:</td> 
  <td><input type="number" name="id" value="<?=$cli->id ?>"  readonly  ></td>
  <td rowspan="7">
-<img src='<?= isset($foto)?$foto:'' ?>'></img></td> 
+ <img id="fotografia" src='<?= isset($foto)?$foto:'' ?>'></td> 
  </tr>
  <tr><td>first_name:</td> 
  <td><input type="text" name="first_name" value="<?=$cli->first_name ?>" autofocus  ></td></tr>
@@ -33,5 +42,6 @@
  <input type="submit"	 name="orden" 	value="<?=$orden?>">
  <button type="submit" name="nav-detalles" value="AnteriorM" <?= isset($btn)?$btn:'' ?>> Anterior << </button>
  <button type="submit" name="nav-detalles" value="SiguienteM" <?= isset($btn)?$btn:'' ?>> Siguiente >> </button>
+ <input type="file" name="archivo" onchange="loadFile(event)"/>
 </form> 
 

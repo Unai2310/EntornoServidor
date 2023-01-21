@@ -85,7 +85,7 @@ function crudModificarSiguiente($id,$clave){
         } else {
             $foto = "https://robohash.org/".$cli->id;
         }
-        include_once "app/views/detalles.php";
+        include_once "app/views/formulario.php";
     }
 }
 
@@ -99,7 +99,7 @@ function crudModificarAnterior($id,$clave){
         } else {
             $foto = "https://robohash.org/".$cli->id;
         }
-        include_once "app/views/detalles.php";
+        include_once "app/views/formulario.php";
     }
 }
 
@@ -107,7 +107,14 @@ function crudModificar($id){
     $db = AccesoDatos::getModelo();
     $cli = $db->getCliente($id);
     $orden="Modificar";
-    include_once "app/views/formulario.php";
+    if (isset($cli)) {
+        if (file_exists("app/uploads/".$cli->id.".jpg")) {
+            $foto = "app/send_img.php?id=".$cli->id.".jpg";
+        } else {
+            $foto = "https://robohash.org/".$cli->id;
+        }
+        include_once "app/views/formulario.php";
+    }
 }
 
 function crudPostAlta(){
@@ -187,6 +194,6 @@ function crudPostModificar(){
         $orden = "Modificar";
         include_once "app/views/formulario.php";
     } else {
-        $db->modCliente($cli);
+        //$db->modCliente($cli);
     }
 }
