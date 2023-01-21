@@ -34,7 +34,7 @@ function crudDetalles($id){
         $bandera = "https://flagcdn.com/32x24/".strtolower($country).".png";
     }
     if (file_exists("app/uploads/".$cli->id.".jpg")) {
-        $foto = "app/views/send_img.php?id=".$cli->id.".jpg";
+        $foto = "app/send_img.php?id=".$cli->id.".jpg";
     } else {
         $foto = "https://robohash.org/".$cli->id;
     }
@@ -50,7 +50,7 @@ function crudDetallesSiguiente($id,$clave){
             $bandera = "https://flagcdn.com/32x24/".strtolower($country).".png";
         }
         if (file_exists("app/uploads/".$cli->id.".jpg")) {
-            $foto = "app/views/send_img.php?id=".$cli->id.".jpg";
+            $foto = "app/send_img.php?id=".$cli->id.".jpg";
         } else {
             $foto = "https://robohash.org/".$cli->id;
         }
@@ -67,7 +67,7 @@ function crudDetallesAnterior($id,$clave){
             $bandera = "https://flagcdn.com/32x24/".strtolower($country).".png";
         }
         if (file_exists("app/uploads/".$cli->id.".jpg")) {
-            $foto = "app/views/send_img.php?id=".$cli->id.".jpg";
+            $foto = "app/send_img.php?id=".$cli->id.".jpg";
         } else {
             $foto = "https://robohash.org/".$cli->id;
         }
@@ -81,7 +81,7 @@ function crudModificarSiguiente($id,$clave){
     $orden="Modificar";
     if (isset($cli)) {
         if (file_exists("app/uploads/".$cli->id.".jpg")) {
-            $foto = "app/views/send_img.php?id=".$cli->id.".jpg";
+            $foto = "app/send_img.php?id=".$cli->id.".jpg";
         } else {
             $foto = "https://robohash.org/".$cli->id;
         }
@@ -95,7 +95,7 @@ function crudModificarAnterior($id,$clave){
     $orden="Modificar";
     if (isset($cli)) {
         if (file_exists("app/uploads/".$cli->id.".jpg")) {
-            $foto = "app/views/send_img.php?id=".$cli->id.".jpg";
+            $foto = "app/send_img.php?id=".$cli->id.".jpg";
         } else {
             $foto = "https://robohash.org/".$cli->id;
         }
