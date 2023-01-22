@@ -128,6 +128,11 @@ function crudPostAlta(){
     $cli->ip_address    =$_POST['ip_address'];
     $cli->telefono      =$_POST['telefono'];
     $db = AccesoDatos::getModelo();
+    if (isset($_FILES)) {
+        $imagen = comprobarFichero($_FILES);
+    } else {
+        $imagen = false;
+    }
     if ($cli->first_name=="" || $cli->last_name=="" || $cli->email=="" || $cli->gender=="" || $cli->ip_address=="" || $cli->telefono=="") {
         $msg = "Hay algun campo vacio, por favor rellenalos todos para poder continuar";
         $orden = "Nuevo";
@@ -153,6 +158,11 @@ function crudPostAlta(){
         $orden = "Nuevo";
         $btn = "disabled";
         include_once "app/views/formulario.php";
+    } else if ($imagen != true) {
+        $msg = $imagen;
+        $orden = "Nuevo";
+        $btn = "disabled";
+        include_once "app/views/formulario.php";
     } else {
         $db->addCliente($cli);
     }
@@ -172,6 +182,7 @@ function crudPostModificar(){
     $cli->ip_address    =$_POST['ip_address'];
     $cli->telefono      =$_POST['telefono'];
     $db = AccesoDatos::getModelo();
+    $imagen = comprobarFichero($_FILES);
     $repetido = $db->emailRepetidoMod($_POST['email']);
     if ($cli->first_name=="" || $cli->last_name=="" || $cli->email=="" || $cli->gender=="" || $cli->ip_address=="" || $cli->telefono=="") {
         $msg = "Hay algun campo vacio, por favor rellenalos todos para poder continuar";
@@ -193,7 +204,11 @@ function crudPostModificar(){
         $msg = "El telefono introducido no tiene un formato correcto";
         $orden = "Modificar";
         include_once "app/views/formulario.php";
+    } else if (!is_bool($imagen)) {
+        $msg = $imagen;
+        $orden = "Modificar";
+        include_once "app/views/formulario.php";
     } else {
-        //$db->modCliente($cli);
+        $db->modCliente($cli);
     }
 }

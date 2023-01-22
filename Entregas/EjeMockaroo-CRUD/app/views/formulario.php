@@ -2,9 +2,9 @@
 <hr>
 <script>
     var loadFile = function(event) {
-    var output = document.getElementById('fotografia');
-    output.src = URL.createObjectURL(event.target.files[0]);
-    output.onload = function() {
+      var output = document.getElementById('fotografia');
+      output.src = URL.createObjectURL(event.target.files[0]);
+      output.onload = function() {
       URL.revokeObjectURL(output.src);
     }
   };
@@ -42,6 +42,6 @@
  <input type="submit"	 name="orden" 	value="<?=$orden?>">
  <button type="submit" name="nav-detalles" value="AnteriorM" <?= isset($btn)?$btn:'' ?>> Anterior << </button>
  <button type="submit" name="nav-detalles" value="SiguienteM" <?= isset($btn)?$btn:'' ?>> Siguiente >> </button>
- <input type="file" name="archivo" onchange="loadFile(event)"/>
+ <input type="file" name="archivo" accept="image/jpg" onchange="loadFile(event)"/>
 </form> 
 

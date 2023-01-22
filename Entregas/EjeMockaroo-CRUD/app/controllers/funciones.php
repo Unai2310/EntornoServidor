@@ -32,11 +32,22 @@ function comprobarFichero($archive) {
             UPLOAD_ERR_CANT_WRITE => 'No se pudo guardar el archivo en disco',  // permisos
             UPLOAD_ERR_EXTENSION  => 'Una extensión PHP evito la subida del archivo',  // extensión PHP
     ];
-    $tamanio = $_FILES['archivos']['size'];
-    $nombre = $_FILES['archivos']['name'];
-    $tipo=$_FILES['archivos']['type'];
-    $temp=$_FILES['archivos']['tmp_name'];
-    $error=$_FILES['archivos']['error'];
+    $tamanio = $archive["archivo"]["size"];
+    $tipo = $archive["archivo"]["type"];
+    $error = $archive["archivo"]["error"];
+    
+    if ($tamanio == 0) {
+        return true;
+    }
+
+    if ($error > 0) {
+        return $codigosErrorSubida[$error];
+    } else if ($tamanio > 1000000) {
+        return "El tamaño del fichero es demasiado grande (1Mb)";
+    } else if ($tipo != "image/jpeg") {
+        return "El formato de la imagen no es correcto (JPG)";
+    } 
+    return true;
 }
 
 ?>
