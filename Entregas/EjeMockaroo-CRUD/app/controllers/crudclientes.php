@@ -193,7 +193,8 @@ function crudPostModificar(){
         $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     } else {
-        subirImagen($_FILES, $cli->id);
-        $db->modCliente($cli);
+        /*subirImagen($_FILES, $cli->id);
+        $db->modCliente($cli);*/
+        probar();
     }
 }

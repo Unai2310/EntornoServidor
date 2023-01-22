@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__."/../composer/vendor/autoload.php";
 
 function getCountry($ip) {
     $url = "http://ip-api.com/json/$ip";
@@ -74,6 +75,19 @@ function comprobarFichero($archive) {
         return "El formato de la imagen no es correcto (JPG)";
     } 
     return true;
+}
+
+function probar() {
+    try {
+        $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/../uploads']);
+        $mpdf->debug = true;
+        $mpdf->WriteHTML("Hello World");
+        $mpdf->Output();
+    } catch (\Mpdf\MpdfException $e) { // Note: safer fully qualified exception 
+                                       //       name used for catch
+        // Process the exception, log, print etc.
+        echo $e->getMessage();
+    }
 }
 
 ?>
