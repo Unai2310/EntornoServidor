@@ -38,6 +38,7 @@
 <input type="hidden"  name="telefono" value="<?=$cli->telefono ?>">
 <button type="submit" name="nav-detalles" value="Anterior"> Anterior << </button>
 <button type="submit" name="nav-detalles" value="Siguiente"> Siguiente >> </button>
+<button type="submit" name="nav-detalles" value="Imprimir"> Imprimir </button>
 </form> 
 
 

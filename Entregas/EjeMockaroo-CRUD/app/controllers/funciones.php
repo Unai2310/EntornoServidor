@@ -90,4 +90,33 @@ function probar() {
     }
 }
 
+function getContenido($datos) {
+    $id = $datos["id"];
+    $nombre = $datos["first_name"];
+    $apellido = $datos["last_name"];
+    $email = $datos["email"];
+    $genero = $datos["gender"];
+    $ip = $datos["ip_address"];
+    $tel = $datos["telefono"];
+    $foto = getFotografia($id);
+
+    $html = "<style type=\"type/css\">";
+    $html .= "table { width:100%; background: #eee; padding: 10px; font-size: 13px; font-family: tahoma; border-spacing 0; }";
+    $html .= "th { background-color: #ddd; padding: 4px; width: 100px; }";
+    $html .= "td { padding: 4px; border-bottom: solid thin #ddd; }";
+    $html .= "</style>";
+    $html .= "<div style=\"font-family: tahoma;\">";
+    $html .= "<center><h2>Usuario nº " . $id."</h2></center>";
+    $html .= "<table>";
+    $html .= "<tr><td rowspan=\"6\"><img src=\"".$foto."\" style=\"opacity: 0.9; width: 200px;\"></td><th>Nombre</th><td>".$nombre."</td></tr>";
+    $html .= "<tr><th>Apellidos</th><td>".$apellido."</td></tr>";
+    $html .= "<tr><th>Email</th><td>".$email."</td></tr>";
+    $html .= "<tr><th>Genero</th><td>".$genero."</td></tr>";
+    $html .= "<tr><th>IP</th><td>".$ip."</td></tr>";
+    $html .= "<tr><th>Telefono</th><td>".$tel."</td></tr>";
+    $html .= "</table></div>";
+
+    return $html;
+}
+
 ?>

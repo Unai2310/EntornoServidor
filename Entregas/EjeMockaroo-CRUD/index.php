@@ -55,7 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" ){
             if (!isset($_SESSION['clave'])) {
                 $_SESSION['clave'] = "id";
             }
-            crudDetallesAnterior($_GET[$_SESSION['clave']],$_SESSION['clave']); break;     
+            crudDetallesAnterior($_GET[$_SESSION['clave']],$_SESSION['clave']); break;
+            
+            case "Imprimir" : crudImprimir($_GET); break;  
         }
     }
 

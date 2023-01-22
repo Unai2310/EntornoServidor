@@ -93,6 +93,13 @@ function crudModificar($id){
     }
 }
 
+function crudImprimir($datos) {
+    $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/../uploads']);
+    $pdf = getContenido($datos);
+    $mpdf->WriteHTML($pdf);
+    $mpdf->Output();
+}
+
 function crudPostAlta(){
     limpiarArrayEntrada($_POST); //Evito la posible inyección de código
     $cli = new Cliente();
@@ -193,8 +200,7 @@ function crudPostModificar(){
         $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     } else {
-        /*subirImagen($_FILES, $cli->id);
-        $db->modCliente($cli);*/
-        probar();
+        subirImagen($_FILES, $cli->id);
+        $db->modCliente($cli);
     }
 }
