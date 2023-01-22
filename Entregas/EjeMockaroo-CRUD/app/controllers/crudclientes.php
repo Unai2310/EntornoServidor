@@ -33,11 +33,7 @@ function crudDetalles($id){
     if  (isset($country)) {
         $bandera = "https://flagcdn.com/32x24/".strtolower($country).".png";
     }
-    if (file_exists("app/uploads/".$cli->id.".jpg")) {
-        $foto = "app/send_img.php?id=".$cli->id.".jpg";
-    } else {
-        $foto = "https://robohash.org/".$cli->id;
-    }
+    $foto = getFotografia($cli->id);
     include_once "app/views/detalles.php";
 }
 
@@ -49,11 +45,7 @@ function crudDetallesSiguiente($id,$clave){
         if  (isset($country)) {
             $bandera = "https://flagcdn.com/32x24/".strtolower($country).".png";
         }
-        if (file_exists("app/uploads/".$cli->id.".jpg")) {
-            $foto = "app/send_img.php?id=".$cli->id.".jpg";
-        } else {
-            $foto = "https://robohash.org/".$cli->id;
-        }
+        $foto = getFotografia($cli->id);
         include_once "app/views/detalles.php";
     }
 }
@@ -66,11 +58,7 @@ function crudDetallesAnterior($id,$clave){
         if  (isset($country)) {
             $bandera = "https://flagcdn.com/32x24/".strtolower($country).".png";
         }
-        if (file_exists("app/uploads/".$cli->id.".jpg")) {
-            $foto = "app/send_img.php?id=".$cli->id.".jpg";
-        } else {
-            $foto = "https://robohash.org/".$cli->id;
-        }
+        $foto = getFotografia($cli->id);
         include_once "app/views/detalles.php";
     }
 }
@@ -80,11 +68,7 @@ function crudModificarSiguiente($id,$clave){
     $cli = $db->getClienteSiguiente($id,$clave);
     $orden="Modificar";
     if (isset($cli)) {
-        if (file_exists("app/uploads/".$cli->id.".jpg")) {
-            $foto = "app/send_img.php?id=".$cli->id.".jpg";
-        } else {
-            $foto = "https://robohash.org/".$cli->id;
-        }
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     }
 }
@@ -94,11 +78,7 @@ function crudModificarAnterior($id,$clave){
     $cli = $db->getClienteAnterior($id,$clave);
     $orden="Modificar";
     if (isset($cli)) {
-        if (file_exists("app/uploads/".$cli->id.".jpg")) {
-            $foto = "app/send_img.php?id=".$cli->id.".jpg";
-        } else {
-            $foto = "https://robohash.org/".$cli->id;
-        }
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     }
 }
@@ -108,11 +88,7 @@ function crudModificar($id){
     $cli = $db->getCliente($id);
     $orden="Modificar";
     if (isset($cli)) {
-        if (file_exists("app/uploads/".$cli->id.".jpg")) {
-            $foto = "app/send_img.php?id=".$cli->id.".jpg";
-        } else {
-            $foto = "https://robohash.org/".$cli->id;
-        }
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     }
 }
@@ -128,40 +104,42 @@ function crudPostAlta(){
     $cli->ip_address    =$_POST['ip_address'];
     $cli->telefono      =$_POST['telefono'];
     $db = AccesoDatos::getModelo();
-    if (isset($_FILES)) {
-        $imagen = comprobarFichero($_FILES);
-    } else {
-        $imagen = false;
-    }
+    $imagen = comprobarFichero($_FILES);
     if ($cli->first_name=="" || $cli->last_name=="" || $cli->email=="" || $cli->gender=="" || $cli->ip_address=="" || $cli->telefono=="") {
         $msg = "Hay algun campo vacio, por favor rellenalos todos para poder continuar";
         $orden = "Nuevo";
         $btn = "disabled";
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     }else if ($db->emailRepetido($_POST['email'])) {
         $msg = "El email introducido esta repetido en la base de datos";
         $orden = "Nuevo";
         $btn = "disabled";
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     } else if (!regexEmail($_POST['email'])) {
         $msg = "El email introducido no tiene un formato correcto";
         $orden = "Nuevo";
         $btn = "disabled";
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     } else if (!regexIp($_POST['ip_address'])){
         $msg = "La dirección IP introducida no tiene un formato correcto";
         $orden = "Nuevo";
         $btn = "disabled";
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     } else if (!regexTel($_POST['telefono'])) {
         $msg = "El telefono introducido no tiene un formato correcto";
         $orden = "Nuevo";
         $btn = "disabled";
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
-    } else if ($imagen != true) {
+    } else if (!is_bool($imagen)) {
         $msg = $imagen;
         $orden = "Nuevo";
         $btn = "disabled";
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     } else {
         $db->addCliente($cli);
@@ -187,28 +165,35 @@ function crudPostModificar(){
     if ($cli->first_name=="" || $cli->last_name=="" || $cli->email=="" || $cli->gender=="" || $cli->ip_address=="" || $cli->telefono=="") {
         $msg = "Hay algun campo vacio, por favor rellenalos todos para poder continuar";
         $orden = "Modificar";
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     }else if ($repetido[0] != $cli->id && isset($repetido)) {
         $msg = "El email introducido esta repetido en la base de datos";
         $orden = "Modificar";
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     } else if (!regexEmail($_POST['email'])) {
         $msg = "El email introducido no tiene un formato correcto";
         $orden = "Modificar";
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     } else if (!regexIp($_POST['ip_address'])){
         $msg = "La dirección IP introducida no tiene un formato correcto";
         $orden = "Modificar";
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     } else if (!regexTel($_POST['telefono'])) {
         $msg = "El telefono introducido no tiene un formato correcto";
         $orden = "Modificar";
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     } else if (!is_bool($imagen)) {
         $msg = $imagen;
         $orden = "Modificar";
+        $foto = getFotografia($cli->id);
         include_once "app/views/formulario.php";
     } else {
+        subirImagen($_FILES, $cli->id);
         $db->modCliente($cli);
     }
 }

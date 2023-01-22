@@ -167,7 +167,7 @@ class AccesoDatos {
     public function emailRepetidoMod($email) {
         $id = "";
 
-        $stmt_usuario   = $this->dbh->prepare("select id from Clientes where email =?");
+        $stmt_usuario = $this->dbh->prepare("select id from Clientes where email =?");
         if ( $stmt_usuario == false) die ($this->dbh->error);
         
         $stmt_usuario->bind_param("s",$email);

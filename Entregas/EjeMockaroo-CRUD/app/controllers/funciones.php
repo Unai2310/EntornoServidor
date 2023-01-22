@@ -21,6 +21,27 @@ function regexEmail($email) {
     return preg_match("/^\S+@\S+\.\S+$/",$email);
 }
 
+function getFotografia($id) {
+    if (file_exists("app/uploads/".$id.".jpg")) {
+        return "app/send_img.php?id=".$id.".jpg";
+    } else {
+        return "https://robohash.org/".$id;
+    }
+}
+
+function subirImagen($archive, $id) {
+    $temp = $archive["archivo"]["tmp_name"];
+    $tamanio = $archive["archivo"]["size"];
+    if (is_dir("app/uploads") && is_writable("app/uploads")) {
+        
+        if (file_exists("app/uploads/" . $id . ".jpg") && $tamanio != 0) {
+            unlink("app/uploads/" . $id . ".jpg");
+        }
+
+        move_uploaded_file($temp, "app/uploads/" . $id . ".jpg");
+    }
+}
+
 function comprobarFichero($archive) {
     $codigosErrorSubida= [ 
             UPLOAD_ERR_OK         => 'Subida correcta',  // Valor 0
@@ -32,12 +53,17 @@ function comprobarFichero($archive) {
             UPLOAD_ERR_CANT_WRITE => 'No se pudo guardar el archivo en disco',  // permisos
             UPLOAD_ERR_EXTENSION  => 'Una extensión PHP evito la subida del archivo',  // extensión PHP
     ];
+    $nombre = $archive["archivo"]["name"];
     $tamanio = $archive["archivo"]["size"];
     $tipo = $archive["archivo"]["type"];
     $error = $archive["archivo"]["error"];
-    
+
     if ($tamanio == 0) {
-        return true;
+        if ($tipo == "" && $nombre != "") {
+            return "El tamaño del fichero es demasiado grande (1Mb)";
+        } else {
+            return true;   
+        }
     }
 
     if ($error > 0) {
