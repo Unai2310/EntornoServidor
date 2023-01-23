@@ -50,6 +50,27 @@ function crudDetallesSiguiente($id,$clave){
     }
 }
 
+function crudIngreso($login,$contra) {
+
+    if ($login == "" || $contra == "") {
+        $msg = "Faltan campos por rellenar";
+        require_once "app/views/inicio.php"; 
+    } else if ($login == "Unai" && $contra == "Unai") {
+        $_SESSION["login"] = $login;
+        if (isset($_SESSION['clave'])) {
+            crudOrdenar($_SESSION['clave']);
+        } else {
+            $db = AccesoDatos::getModelo();
+            $posini = $_SESSION['posini'];
+            $tvalores = $db->getClientes($posini,FPAG);
+            require_once "app/views/list.php";   
+        }
+    } else {
+        $msg = "Usuario o contraseña incorecto";
+        require_once "app/views/inicio.php"; 
+    }
+}
+
 function crudDetallesAnterior($id,$clave){
     $db = AccesoDatos::getModelo();
     $cli = $db->getClienteAnterior($id,$clave);

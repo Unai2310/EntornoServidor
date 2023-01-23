@@ -89,3 +89,44 @@ body {
     width: 32px;
     height: 24px;
   }
+
+  .login {
+    text-align: center;
+  }
+
+  .container-log {
+    text-align: center;
+  }
+
+  .login{
+    text-align: center;
+    margin-top: 24px;
+    font-size: .8rem;
+  }
+
+  .input-login {
+    width: 50%;
+    text-align: center;
+    margin-bottom: 15px;
+    border-radius: 30px;
+    border: 1px solid #DAE2F1;
+    padding: 15px 20px;
+    color:#8498AF;
+    font-size: .9rem;
+    transition: .4s;
+  
+  }
+  
+  .boton-login {
+    background: #8D6CC7;
+    border-radius: 30px;
+    padding: 16px 30px;
+    width: 50%;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: .8rem;
+    transition: .4s;
+    border: none;
+    box-shadow: none;
+    margin: 0;
+  }

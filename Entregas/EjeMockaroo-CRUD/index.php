@@ -61,6 +61,16 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" ){
         }
     }
 
+    if ( isset($_GET['ingresar'])) {
+        if (!isset($_SESSION["primer"])) {
+            $_SESSION["primer"] = "1";
+        }
+        if ($_GET["ingresar"] == "Ingresar") {
+            $_SESSION['posini'] = 0;
+            crudIngreso($_GET['login'], $_GET['pass']);
+        }
+    }
+
     // Proceso de ordenes de CRUD clientes
     if ( isset($_GET['orden'])){
         switch ($_GET['orden']) {
@@ -76,11 +86,11 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" ){
 // POST Formulario de alta o de modificación
 else {
     if (  isset($_POST['orden'])){
-         switch($_POST['orden']) {
-             case "Nuevo"    : crudPostAlta(); break;
-             case "Modificar": crudPostModificar(); break;
-             case "Detalles":; // No hago nada
-         }
+        switch($_POST['orden']) {
+            case "Nuevo"    : crudPostAlta(); break;
+            case "Modificar": crudPostModificar(); break;
+            case "Detalles":; // No hago nada
+        }
     }
 
     if ( isset($_POST['nav-detalles']) && isset($_GET['id'])) {
@@ -100,16 +110,19 @@ else {
 
 // Si no hay nada en la buffer 
 // Cargo genero la vista con la lista por defecto
-if ( ob_get_length() == 0){
-    if (isset($_SESSION['clave'])) {
-        crudOrdenar($_SESSION['clave']);
-    } else {
-        $db = AccesoDatos::getModelo();
-        $posini = $_SESSION['posini'];
-        $tvalores = $db->getClientes($posini,FPAG);
-        require_once "app/views/list.php";   
+if (isset($_SESSION["login"])) {
+    if ( ob_get_length() == 0 ){
+        if (isset($_SESSION['clave'])) {
+            crudOrdenar($_SESSION['clave']);
+        } else {
+            $db = AccesoDatos::getModelo();
+            $posini = $_SESSION['posini'];
+            $tvalores = $db->getClientes($posini,FPAG);
+            require_once "app/views/list.php";   
+        }
     }
-     
+} else if (!isset($_SESSION["primer"])) {
+    $contenido = readfile("app/views/inicio.php");
 }
 $contenido = ob_get_clean();
 

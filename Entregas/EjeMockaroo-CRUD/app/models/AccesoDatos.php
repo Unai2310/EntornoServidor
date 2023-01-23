@@ -21,7 +21,6 @@ class AccesoDatos {
     
 
    // Constructor privado  Patron singleton
-   
     private function __construct(){
 
         $this->dbh = new mysqli(DB_SERVER,DB_USER,DB_PASSWD,DATABASE);
@@ -44,7 +43,6 @@ class AccesoDatos {
 
 
     // Devuelvo cuantos filas tiene la tabla
-
     public function numClientes ():int {
       $result = $this->dbh->query("SELECT id FROM Clientes");
       $num = $result->num_rows;  
@@ -56,7 +54,6 @@ class AccesoDatos {
     public function getClientes ($primero,$cuantos):array {
         $tuser = [];
         // Crea la sentencia preparada
-       // echo "<h1> $primero : $cuantos  </h1>";
         $stmt_usuarios  = $this->dbh->prepare("select * from Clientes limit $primero,$cuantos");
         // Si falla termina el programa
         if ( $stmt_usuarios == false) die (__FILE__.':'.__LINE__.$this->dbh->error);
@@ -92,6 +89,23 @@ class AccesoDatos {
             }
         
         return $cli;
+    }
+
+    public function getUser (String $login) {
+        $user = false;
+        
+        $stmt_usuario = $this->dbh->prepare("select * from User where login =?");
+        if ( $stmt_usuario == false) die ($this->dbh->error);
+
+        // Enlazo $login con el primer ? 
+        $stmt_usuario->bind_param("i",$login);
+        $stmt_usuario->execute();
+        $result = $stmt_usuario->get_result();
+        if ( $result ){
+            $user = $result->fetch_object('User');
+        }
+        
+        return $user;
     }
      
     public function getClienteSiguiente($id, $clave){
