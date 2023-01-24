@@ -30,4 +30,5 @@
 <button type="submit" name="nav" value="Anterior"> < </button>
 <button type="submit" name="nav" value="Siguiente"> > </button>
 <button type="submit" name="nav" value="Ultimo"> >> </button>
+<button type="submit" name="orden" value="Terminar"> Cerrar Sessión </button>
 </form>

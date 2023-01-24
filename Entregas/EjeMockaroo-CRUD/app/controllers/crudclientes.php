@@ -9,6 +9,8 @@ function crudBorrar ($id){
 function crudTerminar(){
     AccesoDatos::closeModelo();
     session_destroy();
+    header("Location: ./");
+
 }
  
 function crudAlta(){
@@ -16,6 +18,18 @@ function crudAlta(){
     $orden= "Nuevo";
     $btn = "disabled";
     include_once "app/views/formulario.php";
+}
+
+function crudRegistro(){
+    $us = new User();
+    $orden= "Registrar";
+    $_SESSION["registro"] = "r";
+    unset($_SESSION["primer"]);
+    include_once "app/views/registro.php";
+}
+
+function crudVolver(){
+    unset($_SESSION["registro"]);
 }
 
 function crudOrdenar($clave) {
@@ -51,11 +65,20 @@ function crudDetallesSiguiente($id,$clave){
 }
 
 function crudIngreso($login,$contra) {
+    $db = AccesoDatos::getModelo();
+    $us = $db->existeUser($login);
+
+    $contrasenia = sha1($contra);
+
+    $_SESSION["primer"] = "1";
 
     if ($login == "" || $contra == "") {
         $msg = "Faltan campos por rellenar";
         require_once "app/views/inicio.php"; 
-    } else if ($login == "Unai" && $contra == "Unai") {
+    } else if (!isset($us)) {
+        $msg = "El usuario no existe";
+        require_once "app/views/inicio.php";
+    } else if ($login == $us->login && $contrasenia == $us->passwd) {
         $_SESSION["login"] = $login;
         if (isset($_SESSION['clave'])) {
             crudOrdenar($_SESSION['clave']);
@@ -66,7 +89,7 @@ function crudIngreso($login,$contra) {
             require_once "app/views/list.php";   
         }
     } else {
-        $msg = "Usuario o contraseña incorecto";
+        $msg = "Contraseña incorecta";
         require_once "app/views/inicio.php"; 
     }
 }
@@ -121,6 +144,29 @@ function crudImprimir($datos) {
     $mpdf->Output();
 }
 
+function crudPostRegistro(){
+    limpiarArrayEntrada($_POST); //Evito la posible inyección de código
+    $us = new User();
+    $us->login    =$_POST['login'];
+    $us->passwd   = sha1($_POST['passwd']);
+    $us->rol = 0;
+    $db = AccesoDatos::getModelo();
+    $repe = $db->existeUser($us->login);
+
+    if ($us->login == "" || $us->passwd == "") {
+        $msg = "Hay algun campo vacio, por favor rellenalos todos para poder continuar";
+        $orden = "Registrar";
+        include_once "app/views/registro.php";
+    }else if ($repe) {
+        $msg = "El login esta repetido, por favor introduce otro";
+        $orden = "Registrar";
+        include_once "app/views/registro.php";
+    } else {
+        unset($_SESSION["registro"]);
+        $db->addUser($us);
+    }
+}
+
 function crudPostAlta(){
     limpiarArrayEntrada($_POST); //Evito la posible inyección de código
     $cli = new Cliente();
@@ -172,8 +218,6 @@ function crudPostAlta(){
     } else {
         $db->addCliente($cli);
     }
-    
-    
 }
 
 function crudPostModificar(){

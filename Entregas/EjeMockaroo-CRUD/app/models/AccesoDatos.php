@@ -86,23 +86,22 @@ class AccesoDatos {
         $result = $stmt_usuario->get_result();
         if ( $result ){
             $cli = $result->fetch_object('Cliente');
-            }
+        }
         
         return $cli;
     }
 
-    public function getUser (String $login) {
+    public function existeUser (String $login) {
         $user = false;
         
         $stmt_usuario = $this->dbh->prepare("select * from User where login =?");
         if ( $stmt_usuario == false) die ($this->dbh->error);
-
-        // Enlazo $login con el primer ? 
-        $stmt_usuario->bind_param("i",$login);
+  
+        $stmt_usuario->bind_param("s",$login);
         $stmt_usuario->execute();
         $result = $stmt_usuario->get_result();
         if ( $result ){
-            $user = $result->fetch_object('User');
+            $user = $result->fetch_object();
         }
         
         return $user;
@@ -221,6 +220,20 @@ class AccesoDatos {
 
         $stmt_creauser->bind_param("ssssss",$cli->first_name,$cli->last_name,$cli->email,
         $cli->gender,$cli->ip_address,$cli->telefono);
+        $stmt_creauser->execute();
+        $resu = ($this->dbh->affected_rows  == 1);
+        return $resu;
+    }
+
+    public function addUser($us):bool{
+       
+        // El id se define automáticamente por autoincremento.
+        $stmt_creauser  = $this->dbh->prepare(
+            "INSERT INTO `User`( `login`, `passwd`, `rol`)".
+            "Values(?,?,?)");
+        if ( $stmt_creauser == false) die ($this->dbh->error);
+
+        $stmt_creauser->bind_param("sss",$us->login,$us->passwd,$us->rol);
         $stmt_creauser->execute();
         $resu = ($this->dbh->affected_rows  == 1);
         return $resu;

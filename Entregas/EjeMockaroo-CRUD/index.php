@@ -6,6 +6,7 @@ define ('FPAG',10); // Número de filas por página
 require_once 'app/helpers/util.php';
 require_once 'app/config/configDB.php';
 require_once 'app/models/Cliente.php';
+require_once 'app/models/User.php';
 require_once 'app/models/AccesoDatos.php';
 require_once 'app/controllers/crudclientes.php';
 
@@ -62,9 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" ){
     }
 
     if ( isset($_GET['ingresar'])) {
-        if (!isset($_SESSION["primer"])) {
-            $_SESSION["primer"] = "1";
-        }
         if ($_GET["ingresar"] == "Ingresar") {
             $_SESSION['posini'] = 0;
             crudIngreso($_GET['login'], $_GET['pass']);
@@ -80,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" ){
             case "Detalles" : crudDetalles ($_GET['id']);break;
             case "Terminar" : crudTerminar(); break;
             case "Ordenar"  : crudOrdenar($_GET['clave']); break;
+            case "Registrar" : crudRegistro(); break;
         }
     }
 } 
@@ -89,6 +88,8 @@ else {
         switch($_POST['orden']) {
             case "Nuevo"    : crudPostAlta(); break;
             case "Modificar": crudPostModificar(); break;
+            case "Registrar": crudPostRegistro(); break;
+            case "Volver": crudVolver(); break;
             case "Detalles":; // No hago nada
         }
     }
@@ -121,7 +122,7 @@ if (isset($_SESSION["login"])) {
             require_once "app/views/list.php";   
         }
     }
-} else if (!isset($_SESSION["primer"])) {
+} else if (!isset($_SESSION["primer"]) && !isset($_SESSION["registro"])) {
     $contenido = readfile("app/views/inicio.php");
 }
 $contenido = ob_get_clean();
