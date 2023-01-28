@@ -7,10 +7,10 @@
 <br>
 <table>
  <tr><td>Login:</td> 
- <td><input type="text" name="login" value="<?=$us->login ?>" ></td>
+ <td><input type="text" name="login"  ></td>
  </tr>
  <tr><td>Contraseña:</td> 
- <td><input type="password" name="passwd" value="<?=$us->passwd ?>" ></td></tr>
+ <td><input type="password" name="passwd"></td></tr>
  </tr>
  </table>
  <br>

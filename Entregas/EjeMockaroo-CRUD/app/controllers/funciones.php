@@ -79,19 +79,6 @@ function comprobarFichero($archive) {
     return true;
 }
 
-function probar() {
-    try {
-        $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/../uploads']);
-        $mpdf->debug = true;
-        $mpdf->WriteHTML("Hello World");
-        $mpdf->Output();
-    } catch (\Mpdf\MpdfException $e) { // Note: safer fully qualified exception 
-                                       //       name used for catch
-        // Process the exception, log, print etc.
-        echo $e->getMessage();
-    }
-}
-
 function getContenido($datos) {
     $id = $datos["id"];
     $nombre = $datos["first_name"];
@@ -119,6 +106,14 @@ function getContenido($datos) {
     $html .= "</table></div>";
 
     return $html;
+}
+
+function getDibujo($rol) {
+    if ($rol == 0) {
+        return "👤";
+    } else {
+        return "🔑";
+    }
 }
 
 ?>

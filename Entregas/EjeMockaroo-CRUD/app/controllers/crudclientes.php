@@ -3,7 +3,7 @@ require_once ('funciones.php');
 
 function crudBorrar($id)
 {
-    if ($_SESSION["login"] == 0) {
+    if ($_SESSION["rol"] == 0) {
         $_SESSION["msg"] = "No tienes permisos para acceder a esta opción";
     } else {
         $db = AccesoDatos::getModelo();
@@ -18,7 +18,7 @@ function crudTerminar(){
 }
  
 function crudAlta(){
-    if ($_SESSION["login"] == 0) {
+    if ($_SESSION["rol"] == 0) {
         $_SESSION["msg"] = "No tienes permisos para acceder a esta opción";
     } else {
         $cli = new Cliente();
@@ -40,6 +40,10 @@ function crudVolver(){
     unset($_SESSION["registro"]);
 }
 
+function crudVolverU() {
+    unset($_SESSION["roles"]);
+}
+
 function crudOrdenar($clave) {
     $db = AccesoDatos::getModelo();
     $posini = $_SESSION['posini'];
@@ -50,6 +54,7 @@ function crudOrdenar($clave) {
 
 function crudDetalles($id){
     $db = AccesoDatos::getModelo();
+    unset($_SESSION["msg"]);
     $cli = $db->getCliente($id);
     $country = getCountry($cli->ip_address);
     if  (isset($country)) {
@@ -57,6 +62,13 @@ function crudDetalles($id){
     }
     $foto = getFotografia($cli->id);
     include_once "app/views/detalles.php";
+}
+
+function crudRoles() {
+    $db = AccesoDatos::getModelo();
+    $tvalores = $db->getUsuarios($_SESSION['posiniU'],FPAG);
+    $_SESSION["roles"] = "r";
+    require_once "app/views/listRoles.php"; 
 }
 
 function crudDetallesSiguiente($id,$clave){
@@ -95,7 +107,12 @@ function crudIngreso($login,$contra) {
             $msg = "El usuario no existe";
             require_once "app/views/inicio.php";
         } else if ($login == $us->login && $contrasenia == $us->passwd) {
-            $_SESSION["login"] = $us->rol;
+            $_SESSION["rol"] = $us->rol;
+            $_SESSION["login"] = $us->login;
+            $_SESSION["dibujo"] = getDibujo($us->rol);
+            if ($_SESSION["rol"]  == 1) {
+                $_SESSION["masterbtn"] = "<button type=\"submit\" name=\"orden\" value=\"Roles\"> Roles </button>";
+            }
             if (isset($_SESSION['clave'])) {
                 crudOrdenar($_SESSION['clave']);
             } else {
@@ -147,7 +164,7 @@ function crudModificarAnterior($id,$clave){
 }
 
 function crudModificar($id){
-    if ($_SESSION["login"] == 0) {
+    if ($_SESSION["rol"] == 0) {
         $_SESSION["msg"] = "No tienes permisos para acceder a esta opción";
     } else {
         $db = AccesoDatos::getModelo();
@@ -165,6 +182,27 @@ function crudImprimir($datos) {
     $pdf = getContenido($datos);
     $mpdf->WriteHTML($pdf);
     $mpdf->Output();
+}
+
+function crudPostCambiar($logins) {
+    foreach ($logins as $log) {
+        $db = AccesoDatos::getModelo();
+        $user = $db->existeUser($log);
+        if ($user->rol == 0) {
+            $nuevorol = 1;
+        } else {
+            $nuevorol = 0;
+        }
+        if ($user->login == $_SESSION["login"]) {
+            $_SESSION["rol"] = $nuevorol;
+            if ($nuevorol == 0) {
+                unset($_SESSION["masterbtn"]);
+            } else {
+                $_SESSION["masterbtn"] = "<button type=\"submit\" name=\"orden\" value=\"Roles\"> Roles </button>";
+            }
+        }
+        $db->cambiarRol($nuevorol,$user->login);
+    }
 }
 
 function crudPostRegistro(){

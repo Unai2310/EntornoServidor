@@ -49,6 +49,11 @@ class AccesoDatos {
       return $num;
     } 
     
+    public function numUsuarios ():int {
+        $result = $this->dbh->query("SELECT login FROM User");
+        $num = $result->num_rows;  
+        return $num;
+      } 
 
     // SELECT Devuelvo la lista de Usuarios
     public function getClientes ($primero,$cuantos):array {
@@ -65,6 +70,27 @@ class AccesoDatos {
         if ( $result ){
             // Obtengo cada fila de la respuesta como un objeto de tipo Usuario
             while ( $user = $result->fetch_object('Cliente') ){
+               $tuser[]= $user;
+            }
+        }
+        // Devuelvo el array de objetos
+        return $tuser;
+    }
+
+    public function getUsuarios ($primero,$cuantos):array {
+        $tuser = [];
+        // Crea la sentencia preparada
+        $stmt_usuarios  = $this->dbh->prepare("select * from User limit $primero,$cuantos");
+        // Si falla termina el programa
+        if ( $stmt_usuarios == false) die (__FILE__.':'.__LINE__.$this->dbh->error);
+        // Ejecuto la sentencia
+        $stmt_usuarios->execute();
+        // Obtengo los resultados
+        $result = $stmt_usuarios->get_result();
+        // Si hay resultado correctos
+        if ( $result ){
+            // Obtengo cada fila de la respuesta como un objeto de tipo Usuario
+            while ( $user = $result->fetch_object() ){
                $tuser[]= $user;
             }
         }
@@ -105,6 +131,17 @@ class AccesoDatos {
         }
         
         return $user;
+    }
+
+    public function cambiarRol($rol, $login) {
+
+        $stmt_modrol   = $this->dbh->prepare("update User set rol =? where login =?");
+        if ( $stmt_modrol == false) die ($this->dbh->error);
+
+        $stmt_modrol->bind_param("is",$rol,$login);
+        $stmt_modrol->execute();
+        $resu = ($this->dbh->affected_rows  == 1);
+        return $resu;
     }
      
     public function getClienteSiguiente($id, $clave){

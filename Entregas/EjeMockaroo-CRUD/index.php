@@ -25,6 +25,19 @@ if ( !isset($_SESSION['posini']) ){
   $_SESSION['posini'] = 0;
 }
 $posAux = $_SESSION['posini'];
+
+$totalfilasU = $midb->numUsuarios();
+$_SESSION['tfilasU'] = $totalfilasU;
+if ( $totalfilasU % FPAG == 0){
+    $posfinU = $totalfilasU - FPAG;
+} else {
+    $posfinU = $totalfilasU - $totalfilasU % FPAG;
+}
+
+if ( !isset($_SESSION['posiniU']) ){
+  $_SESSION['posiniU'] = 0;
+}
+$posAuxU = $_SESSION['posini'];
 //------------
 
 
@@ -41,6 +54,16 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" ){
             case "Ultimo"   : $posAux = $posfin;
         }
         $_SESSION['posini'] = $posAux;
+    }
+
+    if ( isset($_GET['navU'])) {
+        switch ( $_GET['navU']) {
+            case "Primero"  : $posAuxU = 0; break;
+            case "Siguiente": $posAuxU +=FPAG; if ($posAuxU > $posfinU) $posAuxU=$posfinU; break;
+            case "Anterior" : $posAuxU -=FPAG; if ($posAuxU < 0) $posAuxU =0; break;
+            case "Ultimo"   : $posAuxU = $posfinU;
+        }
+        $_SESSION['posiniU'] = $posAuxU;
     }
 
 
@@ -66,12 +89,15 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" ){
     // Proceso de ordenes de CRUD clientes
     if ( isset($_GET['orden'])){
         switch ($_GET['orden']) {
-            case "Nuevo"    : crudAlta(); break;
-            case "Borrar"   : crudBorrar   ($_GET['id']); break;
-            case "Modificar": crudModificar($_GET['id']); break;
-            case "Detalles" : crudDetalles ($_GET['id']);break;
-            case "Terminar" : crudTerminar(); break;
-            case "Ordenar"  : crudOrdenar($_GET['clave']); break;
+            case "Nuevo"     : crudAlta(); break;
+            case "Borrar"    : crudBorrar   ($_GET['id']); break;
+            case "Modificar" : crudModificar($_GET['id']); break;
+            case "Detalles"  : crudDetalles ($_GET['id']);break;
+            case "Terminar"  : crudTerminar(); break;
+            case "Roles"     : crudRoles(); break;
+            case "VolverU"   : crudVolverU(); break;
+            case "Cambiar"   : if (isset($_GET['chk'])) { crudPostCambiar($_GET["chk"]); } break;
+            case "Ordenar"   : crudOrdenar($_GET['clave']); break;
             case "Registrar" : crudRegistro(); break;
         }
     }
@@ -83,9 +109,9 @@ else {
             case "Nuevo"    : crudPostAlta(); break;
             case "Modificar": crudPostModificar(); break;
             case "Registrar": crudPostRegistro(); break;
-            case "Volver": crudVolver(); break;
-            case "Ingresar": $_SESSION['posini'] = 0; crudIngreso($_POST['login'], $_POST['pass']); break;
-            case "Detalles":; // No hago nada
+            case "Volver"   : crudVolver(); break;
+            case "Ingresar" : $_SESSION['posini'] = 0; crudIngreso($_POST['login'], $_POST['pass']); break;
+            case "Detalles" :; // No hago nada
         }
     }
 
@@ -106,7 +132,7 @@ else {
 
 // Si no hay nada en la buffer 
 // Cargo genero la vista con la lista por defecto
-if (isset($_SESSION["login"])) {
+if (isset($_SESSION["login"]) && !isset($_SESSION["roles"])) {
     if ( ob_get_length() == 0 ){
         if (isset($_SESSION['clave'])) {
             crudOrdenar($_SESSION['clave']);
@@ -119,6 +145,11 @@ if (isset($_SESSION["login"])) {
     }
 } else if (!isset($_SESSION["primer"]) && !isset($_SESSION["registro"])) {
     $contenido = readfile("app/views/inicio.php");
+} else if (isset($_SESSION["roles"])) {
+    $db = AccesoDatos::getModelo();
+    $posiniU = $_SESSION['posiniU'];
+    $tvalores = $db->getUsuarios($posiniU,FPAG);
+    require_once "app/views/listRoles.php";  
 }
 $contenido = ob_get_clean();
 

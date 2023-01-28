@@ -1,6 +1,9 @@
 
+<label>Usuario Actual: <?= isset($_SESSION["login"])?$_SESSION["login"]:'' ?> <?= isset($_SESSION["dibujo"])?$_SESSION["dibujo"]:'' ?></label><br><br>
 <form>
-<button type="submit" name="orden" value="Nuevo"> Cliente Nuevo </button><br>
+<button type="submit" name="orden" value="Nuevo"> Cliente Nuevo </button>
+<?= isset($_SESSION["masterbtn"])?$_SESSION["masterbtn"]:'' ?>
+<br>
 </form>
 <?= isset($_SESSION["msg"])?$_SESSION["msg"]:'' ?>
 <br>
