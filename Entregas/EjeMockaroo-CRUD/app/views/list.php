@@ -2,12 +2,13 @@
 <form>
 <button type="submit" name="orden" value="Nuevo"> Cliente Nuevo </button><br>
 </form>
+<?= isset($_SESSION["msg"])?$_SESSION["msg"]:'' ?>
 <br>
 
 <table>
-<tr><th><a href="?orden=Ordenar&clave=id">id</a></th><th><a href="?orden=Ordenar&clave=first_name">first_name</a></th>
-<th><a href="?orden=Ordenar&clave=email">email</a></th><th><a href="?orden=Ordenar&clave=gender">gender</a></th>
-<th><a href="?orden=Ordenar&clave=ip_address">ip_address</a></th><th><a href="?orden=Ordenar&clave=telefono">teléfono</a></th></tr>
+<tr><th><a href="?orden=Ordenar&clave=id">Id</a></th><th><a href="?orden=Ordenar&clave=first_name">First_Name</a></th>
+<th><a href="?orden=Ordenar&clave=email">Email</a></th><th><a href="?orden=Ordenar&clave=gender">Gender</a></th>
+<th><a href="?orden=Ordenar&clave=ip_address">Ip_Address</a></th><th><a href="?orden=Ordenar&clave=telefono">Teléfono</a></th></tr>
 <?php foreach ($tvalores as $valor): ?>
 <tr>
 <td><?= $valor->id ?> </td>

@@ -10,6 +10,7 @@ require_once 'app/models/User.php';
 require_once 'app/models/AccesoDatos.php';
 require_once 'app/controllers/crudclientes.php';
 
+
 //---- PAGINACIÓN ----
 $midb = AccesoDatos::getModelo();
 $totalfilas = $midb->numClientes();
@@ -62,13 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" ){
         }
     }
 
-    if ( isset($_GET['ingresar'])) {
-        if ($_GET["ingresar"] == "Ingresar") {
-            $_SESSION['posini'] = 0;
-            crudIngreso($_GET['login'], $_GET['pass']);
-        }
-    }
-
     // Proceso de ordenes de CRUD clientes
     if ( isset($_GET['orden'])){
         switch ($_GET['orden']) {
@@ -90,6 +84,7 @@ else {
             case "Modificar": crudPostModificar(); break;
             case "Registrar": crudPostRegistro(); break;
             case "Volver": crudVolver(); break;
+            case "Ingresar": $_SESSION['posini'] = 0; crudIngreso($_POST['login'], $_POST['pass']); break;
             case "Detalles":; // No hago nada
         }
     }

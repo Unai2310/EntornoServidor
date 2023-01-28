@@ -23,10 +23,12 @@ function regexEmail($email) {
 }
 
 function getFotografia($id) {
-    if (file_exists("app/uploads/".$id.".jpg")) {
-        return "app/send_img.php?id=".$id.".jpg";
-    } else {
-        return "https://robohash.org/".$id;
+    if ($id != "") {
+        if (file_exists("app/uploads/".$id.".jpg")) {
+            return "app/send_img.php?id=".$id.".jpg";
+        } else {
+            return "https://robohash.org/".$id;
+        }
     }
 }
 

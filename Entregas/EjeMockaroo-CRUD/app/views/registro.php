@@ -6,10 +6,10 @@
 <?= isset($msg)?$msg:'' ?>
 <br>
 <table>
- <tr><td>login:</td> 
+ <tr><td>Login:</td> 
  <td><input type="text" name="login" value="<?=$us->login ?>" ></td>
  </tr>
- <tr><td>password:</td> 
+ <tr><td>Contraseña:</td> 
  <td><input type="password" name="passwd" value="<?=$us->passwd ?>" ></td></tr>
  </tr>
  </table>

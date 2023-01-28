@@ -3,27 +3,27 @@
 <img id="flag" src="<?= isset($bandera)?$bandera:'https://via.placeholder.com/32x24.png' ?>"></img>
 <br><br>
 <table>
- <tr><td>id:</td> 
+ <tr><td>Id:</td> 
  <td><input type="number" name="id" value="<?=$cli->id ?>"  readonly > </td>
  <td rowspan="7">
 <img src='<?= isset($foto)?$foto:'' ?>'></img></td> 
 </tr>
- <tr><td>first_name:</td> 
+ <tr><td>First_Name:</td> 
  <td><input type="text" name="first_name" value="<?=$cli->first_name ?>" readonly > </td></tr>
  </tr>
- <tr><td>last_name:</td> 
+ <tr><td>Last_Name:</td> 
  <td><input type="text" name="last_name" value="<?=$cli->last_name ?>" readonly ></td></tr>
  </tr>
- <tr><td>email:</td> 
+ <tr><td>Email:</td> 
  <td><input type="email" name="email" value="<?=$cli->email ?>"   readonly  ></td></tr>
  </tr>
- <tr><td>gender</td> 
+ <tr><td>Gender</td> 
  <td><input type="text" name="gender" value="<?=$cli->gender ?>" readonly ></td></tr>
  </tr>
- <tr><td>ip_address:</td> 
+ <tr><td>Ip_address:</td> 
  <td><input type="text" name="ip_address" value="<?=$cli->ip_address ?>" readonly ></td></tr>
  </tr>
- <tr><td>telefono:</td> 
+ <tr><td>Telefono:</td> 
  <td><input type="tel" name="telefono" value="<?=$cli->telefono ?>" readonly ></td></tr>
  </tr>
  </table>

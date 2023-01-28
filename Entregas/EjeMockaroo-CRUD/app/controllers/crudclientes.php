@@ -1,23 +1,31 @@
 <?php
 require_once ('funciones.php');
 
-function crudBorrar ($id){    
-    $db = AccesoDatos::getModelo();
-    $tuser = $db->borrarCliente($id);
+function crudBorrar($id)
+{
+    if ($_SESSION["login"] == 0) {
+        $_SESSION["msg"] = "No tienes permisos para acceder a esta opción";
+    } else {
+        $db = AccesoDatos::getModelo();
+        $tuser = $db->borrarCliente($id);
+    }
 }
 
 function crudTerminar(){
     AccesoDatos::closeModelo();
     session_destroy();
     header("Location: ./");
-
 }
  
 function crudAlta(){
-    $cli = new Cliente();
-    $orden= "Nuevo";
-    $btn = "disabled";
-    include_once "app/views/formulario.php";
+    if ($_SESSION["login"] == 0) {
+        $_SESSION["msg"] = "No tienes permisos para acceder a esta opción";
+    } else {
+        $cli = new Cliente();
+        $orden= "Nuevo";
+        $btn = "disabled";
+        include_once "app/views/formulario.php";
+    }
 }
 
 function crudRegistro(){
@@ -70,28 +78,39 @@ function crudIngreso($login,$contra) {
 
     $contrasenia = sha1($contra);
 
+    if (!isset($_SESSION["intentos"])) {
+        $_SESSION["intentos"] = 1;
+    }
+
     $_SESSION["primer"] = "1";
 
-    if ($login == "" || $contra == "") {
-        $msg = "Faltan campos por rellenar";
+    if ($_SESSION["intentos"] == 3) {
+        $msg = "Has agotado todos los intentos. Reinicia el navegador para volver a intentarlo.";
         require_once "app/views/inicio.php"; 
-    } else if (!isset($us)) {
-        $msg = "El usuario no existe";
-        require_once "app/views/inicio.php";
-    } else if ($login == $us->login && $contrasenia == $us->passwd) {
-        $_SESSION["login"] = $login;
-        if (isset($_SESSION['clave'])) {
-            crudOrdenar($_SESSION['clave']);
-        } else {
-            $db = AccesoDatos::getModelo();
-            $posini = $_SESSION['posini'];
-            $tvalores = $db->getClientes($posini,FPAG);
-            require_once "app/views/list.php";   
-        }
     } else {
-        $msg = "Contraseña incorecta";
-        require_once "app/views/inicio.php"; 
+        if ($login == "" || $contra == "") {
+            $msg = "Faltan campos por rellenar";
+            require_once "app/views/inicio.php"; 
+        } else if (!isset($us)) {
+            $msg = "El usuario no existe";
+            require_once "app/views/inicio.php";
+        } else if ($login == $us->login && $contrasenia == $us->passwd) {
+            $_SESSION["login"] = $us->rol;
+            if (isset($_SESSION['clave'])) {
+                crudOrdenar($_SESSION['clave']);
+            } else {
+                $db = AccesoDatos::getModelo();
+                $posini = $_SESSION['posini'];
+                $tvalores = $db->getClientes($posini,FPAG);
+                require_once "app/views/list.php";   
+            }
+        } else {
+            $msg = "Contraseña incorecta. Te quedan ". 3 - $_SESSION["intentos"]." intentos";
+            $_SESSION["intentos"] += 1;
+            require_once "app/views/inicio.php"; 
+        }
     }
+    
 }
 
 function crudDetallesAnterior($id,$clave){
@@ -128,12 +147,16 @@ function crudModificarAnterior($id,$clave){
 }
 
 function crudModificar($id){
-    $db = AccesoDatos::getModelo();
-    $cli = $db->getCliente($id);
-    $orden="Modificar";
-    if (isset($cli)) {
-        $foto = getFotografia($cli->id);
-        include_once "app/views/formulario.php";
+    if ($_SESSION["login"] == 0) {
+        $_SESSION["msg"] = "No tienes permisos para acceder a esta opción";
+    } else {
+        $db = AccesoDatos::getModelo();
+        $cli = $db->getCliente($id);
+        $orden="Modificar";
+        if (isset($cli)) {
+            $foto = getFotografia($cli->id);
+            include_once "app/views/formulario.php";
+        }
     }
 }
 
