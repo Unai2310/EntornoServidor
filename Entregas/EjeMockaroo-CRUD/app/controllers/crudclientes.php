@@ -193,15 +193,18 @@ function crudPostCambiar($logins) {
         } else {
             $nuevorol = 0;
         }
+        $db->cambiarRol($nuevorol,$user->login);
         if ($user->login == $_SESSION["login"]) {
             $_SESSION["rol"] = $nuevorol;
             if ($nuevorol == 0) {
                 unset($_SESSION["masterbtn"]);
+                unset($_SESSION["roles"]);
             } else {
                 $_SESSION["masterbtn"] = "<button type=\"submit\" name=\"orden\" value=\"Roles\"> Roles </button>";
             }
         }
-        $db->cambiarRol($nuevorol,$user->login);
+        $icono = $db->existeUser($_SESSION["login"]);
+        $_SESSION["dibujo"] = getDibujo($icono->rol);
     }
 }
 
