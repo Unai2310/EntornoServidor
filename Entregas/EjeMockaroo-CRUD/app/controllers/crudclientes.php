@@ -281,6 +281,9 @@ function crudPostAlta(){
         include_once "app/views/formulario.php";
     } else {
         $db->addCliente($cli);
+        $id = $db->emailRepetidoMod($cli->email);
+        $idstring = implode("", $id);
+        subirImagen($_FILES, $idstring);
     }
 }
 
